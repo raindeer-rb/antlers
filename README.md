@@ -1,8 +1,11 @@
 <a href="https://rubygems.org/gems/antlers" title="Install gem"><img src="https://badge.fury.io/rb/antlers.svg" alt="Gem version" height="18"></a>
 
-# `<{` Antlers `}>`
+# Antlers
 
-A new Ruby templating language. Coming soon...
+`<{ Antlers }>` is a templating language designed to be embedded within HTML that is directly embedded within a Ruby file.
+This gives Antlers access to the class it's embedded in at class load and runtime, where it can perform additional logic.
+
+Antlers is currently used in [LowNode](https://github.com/low-rb/low_node) to render child nodes in parallel via immutable state.
 
 ## Syntax
 
@@ -52,4 +55,4 @@ end
 
 ## Philosophy
 
-Antlers is not Ruby, but its syntax is built using Ruby syntax elements in order to look good out of the box with default syntax highlighting.
+**#️⃣ Syntax.** Antlers is not Ruby, but reuses Ruby's syntax in order to gain syntax highlighting out of the box.
