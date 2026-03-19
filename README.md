@@ -3,7 +3,7 @@
 # Antlers
 
 `<{ Antlers }>` is a templating language designed to be embedded within HTML that is directly embedded within a Ruby file.
-This gives Antlers access to the class it's embedded in at class load and runtime, where it can perform additional logic.
+This gives Antlers access to the class it's embedded in at runtime where it can perform additional logic.
 
 Antlers is currently used in [LowNode](https://github.com/low-rb/low_node) to render child nodes in parallel via immutable state.
 
@@ -55,4 +55,4 @@ end
 
 ## Philosophy
 
-**#️⃣ Syntax.** Antlers is not Ruby, but reuses Ruby's syntax in order to gain syntax highlighting out of the box.
+**#️⃣ Syntax.** Antlers is not Ruby, but reuses Ruby's syntax in order to have syntax highlighting out of the box in a Ruby file.
