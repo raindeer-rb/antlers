@@ -8,10 +8,6 @@ gemspec
 group :development do
   gem 'pry'
   gem 'pry-nav'
-  gem 'rack'
-  gem 'rack-test'
-  gem 'rake', '~> 13.0'
-  gem 'rspec', '~> 3.0'
-  gem 'rubocop', require: false
-  gem 'sinatra'
+  gem 'rspec'
+  gem 'rubocop'
 end
