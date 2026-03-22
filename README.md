@@ -2,57 +2,67 @@
 
 # Antlers
 
-`<{ Antlers }>` is a templating language designed to be embedded within HTML that is directly embedded within a Ruby file.
+`<{ Antlers }>` is a templating language designed to be embedded within HTML, where that HTML itself is embedded within a Ruby file.
 This gives Antlers access to the class it's embedded in at runtime where it can perform additional logic.
 
-Antlers is currently used in [LowNode](https://github.com/low-rb/low_node) to render child nodes in parallel via immutable state.
+Antlers is currently used in [LowNode](https://github.com/low-rb/low_node) to render child nodes in a compositional way.
 
 ## Syntax
 
-### Props
+### Components
 
+Render a class named `UserNode` with:
+```ruby
+def render
+  <html><{ UserNode }></html>
+end
+```
+
+**Props:**
 ```ruby
 def render
   <html><{ UserNode user=@user }></html>
 end
 ```
 
-### Slots
-
+**Slots:** [UNRELEASED]
 ```ruby
 def render
   <html>
-    <{ LayoutNode: username = @user.username }>
-      <{ UserNode user = @user }>
+    <{ LayoutNode: username=@user.username }>
+      <{ UserNode user=@user }>
     <{ :LayoutNode }>
   </html>
 end
 ```
 
-### Conditionals
+### Conditionals [UNRELEASED]
 
 ```ruby
 # Block.
 <{ if: @user.happy? }>
-  <{ UserNode user = @user }>
+  <{ UserNode user=@user }>
 <{ :if }>
 
 # Directive.
-<{ UserNode user = @user if: @user.happy? }>
+<{ UserNode user=@user if: @user.happy? }>
 ```
 
-### Loops
+### Loops [UNRELEASED]
 
 ```ruby
 # Block.
 <{ for: user in: @users }>
-  <{ UserNode user = user }>
+  <{ UserNode user=user }>
 <{ :for }>
 
 # Directive.
-<{ UserNode user = user for: user in: @users }>
+<{ UserNode user=user for: user in: @users }>
+
+# Directive with simplified prop.
+<{ UserNode user for: user in: @users }>
 ```
 
 ## Philosophy
 
-**#️⃣ Syntax.** Antlers is not Ruby, but reuses Ruby's syntax in order to have syntax highlighting out of the box in a Ruby file.
+**#️⃣ Syntax.** Antlers is not Ruby, but compiles to Ruby, and looks like Ruby in order to get syntax highlighting out of the box.
