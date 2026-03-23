@@ -6,6 +6,10 @@ Layout/ArrayAlignment:
   Exclude:
     - '**/*spec.rb'
 
+Layout/FirstArrayElementIndentation:
+  Exclude:
+    - '**/*spec.rb'
+
 Style/Documentation:
   Enabled: false
 
