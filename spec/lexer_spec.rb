@@ -27,6 +27,22 @@ RSpec.describe Antlers::Lexer do
     context 'with Antlers' do
       let(:template) do
         <<~RUBY
+          <{ MockNode prop_with_val=mock_val prop_without_val if: @user.happy? }>
+        RUBY
+      end
+
+      let(:sequence) do
+        [{ name: 'MockNode', props: { 'prop_with_val' => 'mock_val', 'prop_without_val' => nil } }]
+      end
+
+      it 'returns sequence' do
+        expect(lexer.parse(template)).to eq(sequence)
+      end
+    end
+
+    context 'with Antlers + HTML' do
+      let(:template) do
+        <<~RUBY
           <div class="{@mock_var}">
             <{ MockNode prop_with_val=mock_val prop_without_val if: @user.happy? }>
           </div>

@@ -15,7 +15,7 @@ module Antlers
 
       until segments[@cursor].nil?
         segment = segments[@cursor] # Save segment as a precaution, antlers_segment() should not increment cursor if no match.
-        sequence << (antlers_segment(segments) || static_segment(segment))
+        sequence << (antlers_segment(segments) || static_segment(segment) || next)
       end
 
       sequence
@@ -25,7 +25,7 @@ module Antlers
 
     def static_segment(segment)
       @cursor += 1
-      segment.strip
+      segment.strip unless segment.strip.empty?
     end
 
     def antlers_segment(segments)
