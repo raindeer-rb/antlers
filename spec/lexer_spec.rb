@@ -27,12 +27,12 @@ RSpec.describe Antlers::Lexer do
     context 'with Antlers' do
       let(:template) do
         <<~RUBY
-          <{ MockNode prop_with_val=mock_val prop_without_val if: @user.happy? }>
+          <{ PropNode prop_with_val=mock_val prop_without_val if: @user.happy? }>
         RUBY
       end
 
       let(:sequence) do
-        [{ name: 'MockNode', props: { 'prop_with_val' => 'mock_val', 'prop_without_val' => nil } }]
+        [{ name: 'PropNode', props: { 'prop_with_val' => 'mock_val', 'prop_without_val' => nil } }]
       end
 
       it 'returns sequence' do
@@ -44,7 +44,7 @@ RSpec.describe Antlers::Lexer do
       let(:template) do
         <<~RUBY
           <div class="{@mock_var}">
-            <{ MockNode prop_with_val=mock_val prop_without_val if: @user.happy? }>
+            <{ PropNode prop_with_val=mock_val prop_without_val if: @user.happy? }>
           </div>
         RUBY
       end
@@ -52,7 +52,7 @@ RSpec.describe Antlers::Lexer do
       let(:sequence) do
         [
           '<div class="', { ivar: 'mock_var' }, '">',
-            { name: 'MockNode', props: { 'prop_with_val' => 'mock_val', 'prop_without_val' => nil } },
+            { name: 'PropNode', props: { 'prop_with_val' => 'mock_val', 'prop_without_val' => nil } },
           '</div>'
         ]
       end
