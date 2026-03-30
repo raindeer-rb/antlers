@@ -32,7 +32,7 @@ RSpec.describe Antlers::Lexer do
       end
 
       let(:sequence) do
-        [{ name: 'PropNode', props: { 'prop_with_val' => 'mock_val', 'prop_without_val' => nil } }]
+        [{ prop: 'PropNode', props: { 'prop_with_val' => 'mock_val', 'prop_without_val' => nil } }]
       end
 
       it 'returns sequence' do
@@ -51,7 +51,7 @@ RSpec.describe Antlers::Lexer do
         let(:sequence) do
           [
             '<div class="', { ivar: 'mock_var' }, '">',
-              { name: 'PropNode', props: { 'prop_with_val' => 'mock_val', 'prop_without_val' => nil } },
+              { prop: 'PropNode', props: { 'prop_with_val' => 'mock_val', 'prop_without_val' => nil } },
             '</div>'
           ]
         end
@@ -59,6 +59,24 @@ RSpec.describe Antlers::Lexer do
         it 'returns sequence' do
           expect(lexer.parse(template)).to eq(sequence)
         end
+      end
+    end
+
+    context 'with a slot node' do
+      let(:template) do
+        <<~RUBY
+          <{ SlotNode: }>
+            <{ PropNode }>
+          <{ :SlotNode }
+        RUBY
+      end
+
+      let(:sequence) do
+        [{slot_def: 'SlotNode'}, {prop: 'PropNode'}, {slot_end: 'SlotNode'}]
+      end
+
+      it 'returns sequence' do
+        expect(lexer.parse(template)).to eq(sequence)
       end
     end
   end
