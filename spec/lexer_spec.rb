@@ -24,7 +24,7 @@ RSpec.describe Antlers::Lexer do
       end
     end
 
-    context 'with Antlers' do
+    context 'with a prop node' do
       let(:template) do
         <<~RUBY
           <{ PropNode prop_with_val=mock_val prop_without_val if: @user.happy? }>
@@ -38,27 +38,27 @@ RSpec.describe Antlers::Lexer do
       it 'returns sequence' do
         expect(lexer.parse(template)).to eq(sequence)
       end
-    end
 
-    context 'with Antlers + HTML' do
-      let(:template) do
-        <<~RUBY
-          <div class="{@mock_var}">
-            <{ PropNode prop_with_val=mock_val prop_without_val if: @user.happy? }>
-          </div>
-        RUBY
-      end
+      context 'wrapped in HTML' do
+        let(:template) do
+          <<~RUBY
+            <div class="{@mock_var}">
+              <{ PropNode prop_with_val=mock_val prop_without_val if: @user.happy? }>
+            </div>
+          RUBY
+        end
 
-      let(:sequence) do
-        [
-          '<div class="', { ivar: 'mock_var' }, '">',
-            { name: 'PropNode', props: { 'prop_with_val' => 'mock_val', 'prop_without_val' => nil } },
-          '</div>'
-        ]
-      end
+        let(:sequence) do
+          [
+            '<div class="', { ivar: 'mock_var' }, '">',
+              { name: 'PropNode', props: { 'prop_with_val' => 'mock_val', 'prop_without_val' => nil } },
+            '</div>'
+          ]
+        end
 
-      it 'returns sequence' do
-        expect(lexer.parse(template)).to eq(sequence)
+        it 'returns sequence' do
+          expect(lexer.parse(template)).to eq(sequence)
+        end
       end
     end
   end
