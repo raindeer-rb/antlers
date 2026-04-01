@@ -7,15 +7,16 @@ require_relative '../nodes/var_node'
 module Antlers
   class NodeFactory
     class << self
-      def branch_node(segment:)
-        # TODO: Detect node type (slot, if, for loop).
-        SlotNode.new(**segment)
+      def var_node(segment:)
+        VarNode.new(name: segment[:ivar])
       end
 
-      def leaf_node(segment:)
-        return VarNode.new(name: segment[:ivar]) if segment[:ivar]
+      def prop_node(segment:)
+        PropNode.new(name: segment[:prop], props: segment[:props])
+      end
 
-        PropNode.new(name: segment[:leaf], props: segment[:props])
+      def slot_node(segment:)
+        SlotNode.new(name: segment[:slot_def], props: segment[:props])
       end
     end
   end

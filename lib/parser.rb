@@ -16,14 +16,20 @@ module Antlers
 
           if segment.is_a?(String)
             branch_node.children << segment
-          elsif segment[:prop] || segment[:ivar]
-            branch_node.children << NodeFactory.leaf_node(segment:)
-          # TODO: This path not called/tested/fully implemented yet.
-          elsif segment[:branch]
-            next_branch = NodeFactory.branch_node(segment:)
-            branch_node.children << next_branch
+          elsif segment[:ivar]
+            branch_node.children << NodeFactory.var_node(segment:)
+          elsif segment[:prop]
+            branch_node.children << NodeFactory.prop_node(segment:)
+          elsif segment[:slot_def]
+            slot_node = NodeFactory.slot_node(segment:)
+            branch_node.children << slot_node
 
-            branch(branch_node: next_branch, sequence:)
+            sub_sequence = []
+            until sequence.first[:slot_end] && sequence.first[:slot_end] == slot_node.name
+              sub_sequence << sequence.shift
+            end
+
+            branch(branch_node: slot_node, sequence: sub_sequence)
           end
         end
 
