@@ -19,17 +19,17 @@ RSpec.describe Antlers::Parser do
       end
 
       let(:ast) do
-        Antlers::RootNode.new(children: [
+        [
           '<div class="',
           Antlers::VarNode.new(name: 'mock_var'),
           '">',
           Antlers::PropNode.new(name: 'PropNode', props: { 'prop_with_val' => 'mock_val', 'prop_without_val' => nil }),
           '</div>'
-        ])
+        ]
       end
 
       it 'returns AST' do
-        expect(parser.parse(sequence)).to eq(ast)
+        expect(parser.parse(sequence).children).to eq(ast)
       end
     end
   end
