@@ -6,7 +6,7 @@ require_relative 'nodes/root_node'
 module Antlers
   module Parser
     class << self
-      def parse(sequence, id: :render)
+      def parse(sequence, id: :root_node)
         branch(branch_node: RootNode.new(name: id), sequence:)
       end
 
