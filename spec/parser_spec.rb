@@ -9,27 +9,47 @@ RSpec.describe Antlers::Parser do
   subject(:parser) { described_class }
 
   describe '.parse' do
-    context 'with Antlers + HTML' do
+    context 'with ivar and props' do
       let(:sequence) do
         [
-          '<div class="', { ivar: 'mock_var' }, '">',
-            { prop: 'PropNode', props: { 'prop_with_val' => 'mock_val', 'prop_without_val' => nil } },
-          '</div>'
+          { ivar: 'mock_var' },
+          { prop: 'PropNode', props: { 'prop_with_val' => 'mock_val', 'prop_without_val' => nil } },
         ]
       end
 
       let(:ast) do
         [
-          '<div class="',
           Antlers::VarNode.new(name: 'mock_var'),
-          '">',
           Antlers::PropNode.new(name: 'PropNode', props: { 'prop_with_val' => 'mock_val', 'prop_without_val' => nil }),
-          '</div>'
         ]
       end
 
       it 'returns AST' do
         expect(parser.parse(sequence).children).to eq(ast)
+      end
+
+      context 'when wrapped in HTML' do
+        let(:sequence) do
+          [
+            '<div class="', { ivar: 'mock_var' }, '">',
+              { prop: 'PropNode', props: { 'prop_with_val' => 'mock_val', 'prop_without_val' => nil } },
+            '</div>'
+          ]
+        end
+
+        let(:ast) do
+          [
+            '<div class="',
+            Antlers::VarNode.new(name: 'mock_var'),
+            '">',
+            Antlers::PropNode.new(name: 'PropNode', props: { 'prop_with_val' => 'mock_val', 'prop_without_val' => nil }),
+            '</div>'
+          ]
+        end
+
+        it 'returns AST' do
+          expect(parser.parse(sequence).children).to eq(ast)
+        end
       end
     end
   end
