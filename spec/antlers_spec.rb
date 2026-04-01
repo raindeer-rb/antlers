@@ -6,8 +6,14 @@ RSpec.describe Antlers do
   subject(:antlers) { described_class }
 
   describe '.parse' do
+    before do
+      allow(Antlers::Parser).to receive(:parse)
+    end
+
     it 'call parser' do
-      expect(Parser).to have_received(:parse)
+      Antlers.parse('<{ MockNode }>')
+
+      expect(Antlers::Parser).to have_received(:parse)
     end
   end
 end
