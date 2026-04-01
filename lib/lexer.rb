@@ -13,7 +13,7 @@ module Antlers
     def parse(template)
       @cursor = 0
       sequence = []
-      
+
       # Split on delimiters and retain capture groups.
       segments = template.split(/(#{Regexp.union(@delimiters)})/).map(&:strip)
 
@@ -38,13 +38,14 @@ module Antlers
     def antlers_segment(segments:)
       next_segment = segments[@cursor + 1]
       return nil unless next_segment && (segments[@cursor] == '<{' || ivar?(segments:))
+
       next_segment
     end
 
     def antlers_lexeme(antlers_segment:, segments:)
       return ivar(antlers_segment:) if ivar?(segments:)
 
-      name, props, keywords = parse_segment(antlers_segment:)
+      name, props, _keywords = parse_segment(antlers_segment:)
 
       return slot(name:, props:) if slot?(name)
       return prop(name:, props:) if prop?(name)
@@ -78,12 +79,12 @@ module Antlers
 
     def slot(name:, props:)
       if name.end_with?(':')
-        slot_def = {slot_def: name.delete_suffix(':')}
+        slot_def = { slot_def: name.delete_suffix(':') }
         slot_def[:props] = props(props) unless props.empty?
         return slot_def
       end
 
-      {slot_end: name.delete_prefix(':')}
+      { slot_end: name.delete_prefix(':') }
     end
 
     def prop(name:, props:)

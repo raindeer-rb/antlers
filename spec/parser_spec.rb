@@ -32,12 +32,12 @@ RSpec.describe Antlers::Parser do
         expect(slot_child).to have_attributes(name: 'SlotNode', children: [prop_node])
       end
     end
-  
+
     context 'with ivar and prop' do
       let(:sequence) do
         [
           { ivar: 'mock_var' },
-          { prop: 'PropNode', props: { 'prop_with_val' => 'mock_val', 'prop_without_val' => nil } },
+          { prop: 'PropNode', props: { 'prop_with_val' => 'mock_val', 'prop_without_val' => nil } }
         ]
       end
 

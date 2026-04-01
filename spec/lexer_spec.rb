@@ -72,7 +72,7 @@ RSpec.describe Antlers::Lexer do
       end
 
       let(:sequence) do
-        [{slot_def: 'SlotNode'}, {prop: 'PropNode'}, {slot_end: 'SlotNode'}]
+        [{ slot_def: 'SlotNode' }, { prop: 'PropNode' }, { slot_end: 'SlotNode' }]
       end
 
       it 'returns sequence' do

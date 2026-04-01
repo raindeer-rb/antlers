@@ -10,7 +10,7 @@ module Antlers
         branch(branch_node: RootNode.new(name: id), sequence:)
       end
 
-      def branch(branch_node:, sequence:)
+      def branch(branch_node:, sequence:) # rubocop:disable Metrics/AbcSize
         until sequence.empty?
           segment = sequence.shift
 
@@ -25,9 +25,7 @@ module Antlers
             branch_node.children << slot_node
 
             sub_sequence = []
-            until sequence.first[:slot_end] && sequence.first[:slot_end] == slot_node.name
-              sub_sequence << sequence.shift
-            end
+            sub_sequence << sequence.shift until sequence.first[:slot_end] == slot_node.name
 
             branch(branch_node: slot_node, sequence: sub_sequence)
           end
