@@ -13,7 +13,7 @@ RSpec.describe Antlers::Parser do
       let(:sequence) do
         [
           '<div class="', { ivar: 'mock_var' }, '">',
-            { leaf: 'PropNode', props: { 'prop_with_val' => 'mock_val', 'prop_without_val' => nil } },
+            { prop: 'PropNode', props: { 'prop_with_val' => 'mock_val', 'prop_without_val' => nil } },
           '</div>'
         ]
       end
