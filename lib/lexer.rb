@@ -20,7 +20,7 @@ module Antlers
       until segments[@cursor].nil?
         if (antlers_segment = antlers_segment(segments:))
           sequence << antlers_lexeme(antlers_segment:, segments:)
-          # Skipping: ['{', '@ivar', '}']
+          # Skipping: ['{', 'expression', '}']
           # Skipping: ['<{', 'name + props + keywords', '}>']
           @cursor += 3
         else
@@ -37,13 +37,13 @@ module Antlers
 
     def antlers_segment(segments:)
       next_segment = segments[@cursor + 1]
-      return nil unless next_segment && (segments[@cursor] == '<{' || ivar?(segments:))
+      return nil unless next_segment && (segments[@cursor] == '<{' || var?(segments:))
 
       next_segment
     end
 
     def antlers_lexeme(antlers_segment:, segments:)
-      return ivar(antlers_segment:) if ivar?(segments:)
+      return var(antlers_segment:) if var?(segments:)
 
       name, props, _keywords = parse_segment(antlers_segment:)
 
@@ -60,9 +60,9 @@ module Antlers
       [name, props, keywords]
     end
 
-    def ivar?(segments:)
-      first, second, third = segments[@cursor..@cursor + 3].map(&:strip)
-      first == '{' && second&.start_with?('@') && third == '}'
+    def var?(segments:)
+      first, middle, last = segments[@cursor..@cursor + 3].map(&:strip)
+      first == '{' && last == '}'
     end
 
     def slot?(name)
@@ -73,8 +73,8 @@ module Antlers
       [*'A'..'Z'].include?(name[0])
     end
 
-    def ivar(antlers_segment:)
-      { ivar: antlers_segment.delete_prefix('@') }
+    def var(antlers_segment:)
+      { var: antlers_segment.delete_prefix('"').delete_suffix('"') }
     end
 
     def slot(name:, props:)

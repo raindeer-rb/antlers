@@ -16,7 +16,7 @@ module Antlers
 
           if segment.is_a?(String)
             branch_node.children << segment
-          elsif segment[:ivar]
+          elsif segment[:var]
             branch_node.children << NodeFactory.var_node(segment:)
           elsif segment[:prop]
             branch_node.children << NodeFactory.prop_node(segment:)

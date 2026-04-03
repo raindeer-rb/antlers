@@ -15,12 +15,32 @@ RSpec.describe Antlers::Lexer do
         HTML
       end
 
-      let(:sequence) do
-        ["<div class=\"page-not-found\">\n  <em>404</em>\n</div>"]
+      it 'returns sequence' do
+        expect(lexer.parse(template)).to eq(["<div class=\"page-not-found\">\n  <em>404</em>\n</div>"])
+      end
+    end
+
+    context 'with a variable' do
+      let(:template) do
+        <<~RUBY
+          {"I'm just a string"}
+        RUBY
       end
 
       it 'returns sequence' do
-        expect(lexer.parse(template)).to eq(sequence)
+        expect(lexer.parse(template)).to eq([{ var: "I'm just a string" }])
+      end
+    end
+
+    context 'with an instance variable' do
+      let(:template) do
+        <<~RUBY
+          {@ivar}
+        RUBY
+      end
+
+      it 'returns sequence' do
+        expect(lexer.parse(template)).to eq([{ var: "@ivar" }])
       end
     end
 
@@ -50,7 +70,7 @@ RSpec.describe Antlers::Lexer do
 
         let(:sequence) do
           [
-            '<div class="', { ivar: 'mock_var' }, '">',
+            '<div class="', { var: '@mock_var' }, '">',
               { prop: 'PropNode', props: { 'prop_with_val' => 'mock_val', 'prop_without_val' => nil } },
             '</div>'
           ]
@@ -71,12 +91,8 @@ RSpec.describe Antlers::Lexer do
         RUBY
       end
 
-      let(:sequence) do
-        [{ slot_def: 'SlotNode' }, { prop: 'PropNode' }, { slot_end: 'SlotNode' }]
-      end
-
       it 'returns sequence' do
-        expect(lexer.parse(template)).to eq(sequence)
+        expect(lexer.parse(template)).to eq([{ slot_def: 'SlotNode' }, { prop: 'PropNode' }, { slot_end: 'SlotNode' }])
       end
     end
   end
