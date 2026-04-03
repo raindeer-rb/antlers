@@ -11,5 +11,15 @@ module Antlers
 
       @children = children
     end
+
+    def render
+      output = ''
+
+      @children.each do |child|
+        output += child.respond_to?(:render) ? child.render : child
+      end
+
+      output
+    end
   end
 end
