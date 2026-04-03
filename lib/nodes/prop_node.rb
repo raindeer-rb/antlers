@@ -11,5 +11,9 @@ module Antlers
 
       @props = props
     end
+
+    def render
+      'PROP'
+    end
   end
 end
