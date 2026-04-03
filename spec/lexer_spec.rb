@@ -24,37 +24,55 @@ RSpec.describe Antlers::Lexer do
       end
     end
 
-    context 'with Antlers' do
+    context 'with a prop node' do
       let(:template) do
         <<~RUBY
-          <{ MockNode prop_with_val=mock_val prop_without_val if: @user.happy? }>
+          <{ PropNode prop_with_val=mock_val prop_without_val if: @user.happy? }>
         RUBY
       end
 
       let(:sequence) do
-        [{ name: 'MockNode', props: { 'prop_with_val' => 'mock_val', 'prop_without_val' => nil } }]
+        [{ prop: 'PropNode', props: { 'prop_with_val' => 'mock_val', 'prop_without_val' => nil } }]
       end
 
       it 'returns sequence' do
         expect(lexer.parse(template)).to eq(sequence)
       end
+
+      context 'wrapped in HTML' do
+        let(:template) do
+          <<~RUBY
+            <div class="{@mock_var}">
+              <{ PropNode prop_with_val=mock_val prop_without_val if: @user.happy? }>
+            </div>
+          RUBY
+        end
+
+        let(:sequence) do
+          [
+            '<div class="', { ivar: 'mock_var' }, '">',
+              { prop: 'PropNode', props: { 'prop_with_val' => 'mock_val', 'prop_without_val' => nil } },
+            '</div>'
+          ]
+        end
+
+        it 'returns sequence' do
+          expect(lexer.parse(template)).to eq(sequence)
+        end
+      end
     end
 
-    context 'with Antlers + HTML' do
+    context 'with a slot node' do
       let(:template) do
         <<~RUBY
-          <div class="{@mock_var}">
-            <{ MockNode prop_with_val=mock_val prop_without_val if: @user.happy? }>
-          </div>
+          <{ SlotNode: }>
+            <{ PropNode }>
+          <{ :SlotNode }
         RUBY
       end
 
       let(:sequence) do
-        [
-          '<div class="', { ivar: 'mock_var' }, '">',
-            { name: 'MockNode', props: { 'prop_with_val' => 'mock_val', 'prop_without_val' => nil } },
-          '</div>'
-        ]
+        [{ slot_def: 'SlotNode' }, { prop: 'PropNode' }, { slot_end: 'SlotNode' }]
       end
 
       it 'returns sequence' do

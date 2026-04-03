@@ -34,7 +34,7 @@ def render
 end
 ```
 
-**Slots:** [UNRELEASED]
+**Slots:**
 ```ruby
 def render
   <html>
