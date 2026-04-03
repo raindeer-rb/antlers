@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require_relative 'lexer'
+require_relative 'parser'
+
 module Antlers
   class << self
     def parse(template)
@@ -9,7 +12,9 @@ module Antlers
       Parser.parse(lexemes)
     end
 
-    # TODO: Render the AST.
-    def render(antler_node); end
+    # TODO: Pass in and evaluate props.
+    def render(antlers_node, props:)
+      antlers_node.render
+    end
   end
 end
