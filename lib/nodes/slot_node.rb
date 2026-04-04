@@ -12,11 +12,11 @@ module Antlers
       @children = children
     end
 
-    def render
+    def render(caller_binding: nil)
       output = ''
 
       @children.each do |child|
-        output += child.respond_to?(:render) ? child.render : child
+        output += child.respond_to?(:render) ? child.render(caller_binding:) : child
       end
 
       output

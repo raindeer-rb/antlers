@@ -12,9 +12,8 @@ module Antlers
       Parser.parse(lexemes)
     end
 
-    # TODO: Pass in and evaluate props.
-    def render(antlers_node, props:)
-      antlers_node.render
+    def render(root_node, caller_binding: nil)
+      root_node.render(caller_binding:)
     end
   end
 end

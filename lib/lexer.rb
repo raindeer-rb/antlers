@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
+require_relative 'queries'
+
 module Antlers
+  extend Queries
+
   class LexerParseError < StandardError; end
 
   class Lexer
@@ -74,7 +78,12 @@ module Antlers
     end
 
     def var(antlers_segment:)
-      { var: antlers_segment.delete_prefix('"').delete_suffix('"') }
+      # String is already interpolated or not depending on user input on the template layer, now we store it without those template quotes.
+      if Queries.user_defined_string?(antlers_segment)
+        antlers_segment = antlers_segment[1..-2]
+      end
+
+      { var: antlers_segment }
     end
 
     def slot(name:, props:)

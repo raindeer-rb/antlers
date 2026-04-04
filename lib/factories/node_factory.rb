@@ -8,7 +8,7 @@ module Antlers
   class NodeFactory
     class << self
       def var_node(segment:)
-        VarNode.new(name: segment[:var])
+        VarNode.new(value: segment[:var])
       end
 
       def prop_node(segment:)

@@ -9,7 +9,7 @@ RSpec.describe Antlers::Parser do
   subject(:parser) { described_class }
 
   let(:var_node) do
-    Antlers::VarNode.new(name: "I'm just a string")
+    Antlers::VarNode.new(value: "I'm just a string")
   end
 
   let(:prop_node) do
@@ -25,7 +25,7 @@ RSpec.describe Antlers::Parser do
 
     context 'with ivar' do
       it 'returns AST' do
-        expect(parser.parse([{ var: "@ivar" }]).children).to eq([Antlers::VarNode.new(name: "@ivar")])
+        expect(parser.parse([{ var: "@ivar" }]).children).to eq([Antlers::VarNode.new(value: "@ivar")])
       end
     end
 
