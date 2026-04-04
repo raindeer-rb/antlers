@@ -2,7 +2,7 @@
 
 require_relative '../../lib/nodes/var_node'
 
-class MockClass
+class MockVarClass
   def initialize
     @ivar = "Instance Variable"
   end
@@ -17,7 +17,7 @@ class MockClass
 end
 
 RSpec.describe Antlers::VarNode do
-  let(:mock_instance) { MockClass.new }
+  let(:mock_instance) { MockVarClass.new }
 
   describe '#render' do
     context 'with an instance variable' do

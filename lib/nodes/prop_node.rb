@@ -1,19 +1,18 @@
 # frozen_string_literal: true
 
 require_relative '../interfaces/antler_node'
+require_relative '../interfaces/class_render'
 
 module Antlers
-  attr_accessor :props
-
   class PropNode < AntlerNode
-    def initialize(name:, props: [])
+    include ClassRender
+
+    attr_accessor :props
+
+    def initialize(name:, props: {})
       super(name:)
 
       @props = props
-    end
-
-    def render
-      'PROP'
     end
   end
 end
