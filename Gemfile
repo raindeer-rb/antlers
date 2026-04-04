@@ -6,6 +6,8 @@ source 'https://rubygems.org'
 gemspec
 
 group :development do
+  gem 'low_event', path: '../low_event'
+
   gem 'pry'
   gem 'pry-nav'
   gem 'rake'

@@ -1,9 +1,17 @@
 PATH
+  remote: ../low_event
+  specs:
+    low_event (0.3.0)
+      low_type (~> 1.0)
+      observers
+      protocol-http
+
+PATH
   remote: .
   specs:
     antlers (0.1.0)
       erb
-      low_type (~> 1.0)
+      low_event
 
 GEM
   remote: https://rubygems.org/
@@ -12,16 +20,26 @@ GEM
     coderay (1.1.3)
     diff-lcs (1.6.2)
     erb (6.0.0)
+    expressions (0.1.0)
     json (2.15.2)
     language_server-protocol (3.17.0.5)
     lint_roller (1.1.0)
-    low_type (1.0.2)
+    low_dependency (0.3.1)
+      expressions (~> 0.1)
+    low_type (1.1.13)
+      expressions (~> 0.1)
+      lowkey (~> 0.4)
+    lowkey (0.4.1)
+      prism
     method_source (1.1.0)
+    observers (0.5.2)
+      low_dependency
     parallel (1.27.0)
     parser (3.3.10.0)
       ast (~> 2.4.1)
       racc
     prism (1.6.0)
+    protocol-http (0.58.1)
     pry (0.14.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -69,6 +87,7 @@ PLATFORMS
 
 DEPENDENCIES
   antlers!
+  low_event!
   pry
   pry-nav
   rake

@@ -25,7 +25,7 @@ Gem::Specification.new do |spec|
   spec.bindir = 'exe'
   spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
 
-  spec.add_dependency 'low_type', '~> 1.0'
+  spec.add_dependency 'low_event'
   spec.add_dependency 'erb'
 
   # For more information and examples about making a new gem, check out our
