@@ -18,6 +18,13 @@ def render
 end
 ```
 
+ℹ️ Variables (`{}`) are also useful for embedding text in RBX without Ruby syntax highlighting issues:
+```ruby
+def render
+  <html>{"I'm just a string"}</html>
+end
+```
+
 ### Components
 
 Render a class named `UserNode` with:
@@ -72,46 +79,43 @@ end
 <{ UserNode user for: user in: @users }>
 ```
 
-## Immutability
-
-Antlers convert variables to immutable copies when passed as props to a child node.
-
-## Parallelism
-
-- Antlers processes items in for loops in parallel [UNRELEASED]
-- Antlers processes `<{ MyNode }>` embeds in parallel too, starting with nodes at the end of the tree first [UNRELEASED]
-
 ## Config [UNRELEASED]
 
-### Turning off parallelism
+### Enabling parallelism
 
-**Per method:**
+Add parallelism where it makes sense and you can measure the performance outcome and keep data integrity.
+
+**Per sibling:**
 ```ruby
 def render
-  <{ parallelism: false }>
-    # 1. Each item in for loop executed sequentially.
+  <{ parallelize: }>
+    # For Loop executed at the same time as UserNode.
     <{ for: user in: @users }>
       <{ UserNode user=user }>
     <{ :for }>
 
-    # 2. User node executed sequentially after for loop.
-    <{ UserNode }>
-  <{ :parallelism }>
+    # PostsNode executed at the same time as For Loop.
+    <{ PostsNode }>
+  <{ :parallelize }>
 end
 ```
 
+ℹ️ The For loop in the example above still renders `PostsNode`s sequentially unless you use `map:` with a `:parallelize` directive.
+
 **Per block:**
 ```ruby
-<{ for: user in: @users parallelism: false }>
+# Each UserNode rendered at the same time.
+<{ map: user in: @users :parallelize }>
   <{ UserNode user=user }>
-<{ :for }>
+<{ :map }>
 ```
 
 **Per directive:**
 ```ruby
-<{ UserNode user=user for: user in: @users parallelism: false }>
+<{ UserNode user=user for: user in: @users :parallelize }>
 ```
 
 ## Philosophy
 
-**#️⃣ Syntax.** Antlers syntax is not Ruby, but compiles to Ruby, and looks like Ruby in order to get syntax highlighting out of the box.
+- **#️⃣ Syntax.** Antlers syntax looks like Ruby in order to get syntax highlighting out of the box.
+- **⏳ Future.** Antlers should parallelize immutable data structures automatically [GOAL], see [LowNode](https://github.com/low-rb/low_node).
