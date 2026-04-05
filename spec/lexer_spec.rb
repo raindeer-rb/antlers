@@ -6,7 +6,7 @@ RSpec.describe Antlers::Lexer do
   subject(:lexer) { described_class.new }
 
   describe '.parse' do
-    context 'with HTML' do
+    context 'when just HTML' do
       let(:template) do
         <<~HTML
           <div class="page-not-found">
@@ -59,7 +59,7 @@ RSpec.describe Antlers::Lexer do
         expect(lexer.parse(template)).to eq(sequence)
       end
 
-      context 'wrapped in HTML' do
+      context 'when wrapped in HTML' do
         let(:template) do
           <<~RUBY
             <div class="{@mock_var}">
