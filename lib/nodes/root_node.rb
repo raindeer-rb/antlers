@@ -1,25 +1,11 @@
 # frozen_string_literal: true
 
-require_relative '../interfaces/antler_node'
+require_relative '../interfaces/branch_node'
 
 module Antlers
-  class RootNode < AntlerNode
-    attr_accessor :children
-
+  class RootNode < BranchNode
     def initialize(name: :root_node, children: [])
-      super(name:)
-
-      @children = children
-    end
-
-    def render(caller_binding: nil)
-      output = ''
-
-      @children.each do |child|
-        output += child.respond_to?(:render) ? child.render(caller_binding:) : child
-      end
-
-      output
+      super(name:, children:)
     end
   end
 end

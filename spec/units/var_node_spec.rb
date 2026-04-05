@@ -24,7 +24,7 @@ RSpec.describe Antlers::VarNode do
       subject(:var_node) { described_class.new(value: "@ivar") }
 
       it 'evaluates an instance variable' do
-        expect(var_node.render(caller_binding: mock_instance.instance_binding)).to eq("Instance Variable")
+        expect(var_node.render(current_binding: mock_instance.instance_binding)).to eq("Instance Variable")
       end
     end
 
@@ -32,7 +32,7 @@ RSpec.describe Antlers::VarNode do
       subject(:var_node) { described_class.new(value: "method_call") }
 
       it 'evaluates a method call' do
-        expect(var_node.render(caller_binding: mock_instance.instance_binding)).to eq("Method Call")
+        expect(var_node.render(current_binding: mock_instance.instance_binding)).to eq("Method Call")
       end
     end
 

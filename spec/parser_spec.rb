@@ -23,7 +23,7 @@ RSpec.describe Antlers::Parser do
       end
     end
 
-    context 'with ivar' do
+    context 'with instance variable' do
       it 'returns AST' do
         expect(parser.parse([{ var: "@ivar" }]).children).to eq([Antlers::VarNode.new(value: "@ivar")])
       end
@@ -60,7 +60,7 @@ RSpec.describe Antlers::Parser do
       end
     end
 
-    context 'with prop in slot' do
+    context 'slot execution' do
       let(:sequence) do
         [
           { slot_def: 'SlotNode' },

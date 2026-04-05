@@ -3,6 +3,8 @@
 require_relative 'lexer'
 require_relative 'parser'
 
+require 'low_event'
+
 module Antlers
   class << self
     def parse(template)
@@ -12,8 +14,8 @@ module Antlers
       Parser.parse(lexemes)
     end
 
-    def render(root_node, caller_binding: nil)
-      root_node.render(caller_binding:)
+    def render(ast:, current_binding:, parent_binding: nil, namespace: nil)
+      ast.render(current_binding:, parent_binding:, namespace:)
     end
   end
 end

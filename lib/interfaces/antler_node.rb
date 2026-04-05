@@ -8,7 +8,11 @@ module Antlers
       @name = name
     end
 
-    # Consider this a value object on comparison.
+    def render(current_binding: nil, parent_binding: nil, namespace: nil)
+      raise NotImplementedError
+    end
+
+    # Consider instance a value object on comparison.
     def ==(other) = other.class == self.class
     def eql?(other) = self == other
     def hash = [self.class].hash

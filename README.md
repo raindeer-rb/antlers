@@ -18,13 +18,6 @@ def render
 end
 ```
 
-ℹ️ Variables (`{}`) are also useful for embedding text in RBX without Ruby syntax highlighting issues:
-```ruby
-def render
-  <html>{"I'm just a string"}</html>
-end
-```
-
 ### Components
 
 Render a class named `UserNode` with:
@@ -33,6 +26,8 @@ def render
   <html><{ UserNode }></html>
 end
 ```
+
+ℹ️ The class referenced via `<{ MyClass }>` must implement a `def render(event:)` method.
 
 **Props:**
 ```ruby
@@ -124,6 +119,62 @@ end
 **Per directive:**
 ```ruby
 <{ UserNode user=user for: user in: @users :parallelize }>
+```
+
+## Advanced Techniques
+
+ℹ️ Variables (`{}`) are also useful for embedding text in RBX without Ruby syntax highlighting issues:
+```ruby
+def render
+  <html>{"I'm just a string"}</html>
+end
+```
+
+## API
+
+### `Antlers.parse(template)`
+
+Parse the Antlers template into an Abstract Syntax tree.
+
+### `Antlers.render(ast:, current_binding:)`
+
+Render the AST and evaluate variables in the supplied binding.
+
+**Optional arguments:**
+- `parent_binding: nil` - For rendering a `<{ :slot }>` in a child component
+- `namespace: nil` - The original namespace that the template was defined in
+
+## Architecture
+
+Antlers creates an Abstract Syntax Tree composed of the following `AntlerNode`s:
+
+**Leaf nodes:**
+- `PropNode`
+- `VarNode`
+
+**Branch nodes:**
+- `RootNode`
+- `SlotNode`
+
+## Integrations
+
+### LowNode
+
+```mermaid
+sequenceDiagram
+  autonumber
+
+  participant LowLoad
+  participant LowNode
+  participant Template
+
+  LowLoad->>LowNode: Load node
+  LowNode->>Template: Load template
+  Template->>Template: Parse Antlers
+  Template->>LowNode: Store template
+  Note over LowLoad,Template: Render event
+  LowNode->>Template: Render node
+  Template-->>LowNode: Render child nodes
 ```
 
 ## Philosophy

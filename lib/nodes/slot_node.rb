@@ -1,25 +1,16 @@
 # frozen_string_literal: true
 
-require_relative '../nodes/prop_node'
+require_relative '../interfaces/branch_node'
+require_relative '../modules/props'
 
 module Antlers
-  class SlotNode < PropNode
+  class SlotNode < BranchNode
+    include Props
+
     attr_accessor :children
 
     def initialize(name:, props: [], children: [])
-      super(name:, props:)
-
-      @children = children
-    end
-
-    def render(caller_binding: nil)
-      output = ''
-
-      @children.each do |child|
-        output += child.respond_to?(:render) ? child.render(caller_binding:) : child
-      end
-
-      output
+      super(name:, props:, children:)
     end
   end
 end
