@@ -52,6 +52,17 @@ def render
 end
 ```
 
+The `LayoutNode` would look like:
+```ruby
+class LayoutNode
+  def render(event:, **props)
+    <header>Site Name</header>
+    <{ :slot }>
+    <footer>More Info</footer>
+  end
+end
+```
+
 ### Conditionals [UNRELEASED]
 
 ```ruby
