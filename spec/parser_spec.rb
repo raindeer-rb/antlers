@@ -13,7 +13,7 @@ RSpec.describe Antlers::Parser do
   end
 
   let(:prop_node) do
-    Antlers::PropNode.new(name: 'PropNode', props: { 'prop_with_val' => 'mock_val', 'prop_without_val' => nil })
+    Antlers::PropNode.new(name: 'PropNode', props: { prop_with_val: 'mock_val', prop_without_val: nil })
   end
 
   describe '.parse' do
@@ -33,7 +33,7 @@ RSpec.describe Antlers::Parser do
       let(:sequence) do
         [
           { var: "I'm just a string" },
-          { prop: 'PropNode', props: { 'prop_with_val' => 'mock_val', 'prop_without_val' => nil } }
+          { prop: 'PropNode', props: { prop_with_val: 'mock_val', prop_without_val: nil } }
         ]
       end
 
@@ -45,7 +45,7 @@ RSpec.describe Antlers::Parser do
         let(:sequence) do
           [
             '<div class="', { var: "I'm just a string" }, '">',
-              { prop: 'PropNode', props: { 'prop_with_val' => 'mock_val', 'prop_without_val' => nil } },
+              { prop: 'PropNode', props: { prop_with_val: 'mock_val', prop_without_val: nil } },
             '</div>'
           ]
         end
@@ -64,7 +64,7 @@ RSpec.describe Antlers::Parser do
       let(:sequence) do
         [
           { slot_def: 'SlotNode' },
-          { prop: 'PropNode', props: { 'prop_with_val' => 'mock_val', 'prop_without_val' => nil } },
+          { prop: 'PropNode', props: { prop_with_val: 'mock_val', prop_without_val: nil } },
           { slot_end: 'SlotNode' }
         ]
       end

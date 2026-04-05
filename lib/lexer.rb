@@ -117,7 +117,7 @@ module Antlers
           value = odd_props.shift
         end
 
-        props[prop] = value
+        props[prop.to_sym] = value
       end
 
       props

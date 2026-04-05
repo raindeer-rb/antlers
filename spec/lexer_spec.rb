@@ -52,7 +52,7 @@ RSpec.describe Antlers::Lexer do
       end
 
       let(:sequence) do
-        [{ prop: 'PropNode', props: { 'prop_with_val' => 'mock_val', 'prop_without_val' => nil } }]
+        [{ prop: 'PropNode', props: { prop_with_val: 'mock_val', prop_without_val: nil } }]
       end
 
       it 'returns sequence' do
@@ -71,7 +71,7 @@ RSpec.describe Antlers::Lexer do
         let(:sequence) do
           [
             '<div class="', { var: '@mock_var' }, '">',
-              { prop: 'PropNode', props: { 'prop_with_val' => 'mock_val', 'prop_without_val' => nil } },
+              { prop: 'PropNode', props: { prop_with_val: 'mock_val', prop_without_val: nil } },
             '</div>'
           ]
         end
