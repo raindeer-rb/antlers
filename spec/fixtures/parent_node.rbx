@@ -3,13 +3,13 @@
 require 'low_node'
 
 module RBX
-  class LowParentNode < LowNode
+  class ParentNode < LowNode
     def initialize(event:)
       @ivar = 'Parent Variable'
     end
 
     def render(event:)
-      <html><{ ChildNode }></html>
+      <html><{ ChildNode ivar=@ivar }></html>
     end
 
     # Usuallly a low node instance calls an antlers node, passing in the instance's binding.

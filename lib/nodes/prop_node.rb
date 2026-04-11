@@ -11,11 +11,13 @@ module Antlers
       props = evaluate_props(props: @props, current_binding:)
       event = create_event(props:)
 
-      # TODO: Namespace lookup similar to what LowLoad does.
-      klass = Object.const_get(name)
-
+      klass = class_from_namespace(namespace: namespace&.split('::') || [], name: @name)
       instance = klass.new(event:)
-      klass.template ? instance.render_template(event:, parent_binding:) : instance.render(event:)
+
+      # Classes referenced via "<{ ChildNode }>" must implement class/instance render/render_template methods (See LowNode).
+      return instance.render_template(event:, parent_binding:, props:) if klass.template
+
+      props.empty? ? instance.render(event:) : instance.render(event:, **props)
     end
 
     private
@@ -40,6 +42,16 @@ module Antlers
       end
 
       evaluated_props
+    end
+
+    def class_from_namespace(namespace:, name:)
+      return Object.const_get(name) if Object.const_defined?(name) || name.start_with?('::')
+
+      namespace_with_name = [namespace, name].join('::')
+      return Object.const_get(namespace_with_name) if Object.const_defined?(namespace_with_name)
+
+      namespace.pop
+      class_from_namespace(namespace:, name:)
     end
   end
 end

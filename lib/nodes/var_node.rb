@@ -20,6 +20,7 @@ module Antlers
     #  3. A static string
     def render(current_binding: nil, parent_binding: nil, namespace: nil)
       if current_binding
+        return current_binding.local_variable_get(@value) if current_binding.local_variable_defined?(@value)
         return current_binding.receiver.instance_variable_get(@value) if @value.start_with?('@')
         return current_binding.receiver.send(@value.to_sym) if current_binding.receiver.respond_to?(@value.to_sym)
       end
