@@ -27,7 +27,7 @@ module Antlers
             branch_node.children << slot_node
 
             sub_sequence = []
-            sub_sequence << sequence.shift until sequence.first[:slot_end] == slot_node.name
+            sub_sequence << sequence.shift until sequence.first.is_a?(Hash) && sequence.first[:slot_end] == slot_node.name
 
             branch(branch_node: slot_node, sequence: sub_sequence)
           end
