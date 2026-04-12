@@ -18,7 +18,7 @@ module Antlers
     #  1. An instance/local variable
     #  2. A method call
     #  3. A static string
-    def render(current_binding: nil, parent_binding: nil, namespace: nil)
+    def render(current_binding: nil, parent_binding: nil, slot_node: nil, namespace: nil)
       if current_binding
         return current_binding.receiver.instance_variable_get(@value) if @value.start_with?('@')
         return current_binding.local_variable_get(@value) if current_binding.local_variable_defined?(@value)

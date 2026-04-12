@@ -20,6 +20,8 @@ module Antlers
             branch_node.children << NodeFactory.var_node(segment:)
           elsif segment[:prop]
             branch_node.children << NodeFactory.prop_node(segment:)
+          elsif segment[:slot]
+            branch_node.children << NodeFactory.yield_node(segment:)
           elsif segment[:slot_def]
             slot_node = NodeFactory.slot_node(segment:)
             branch_node.children << slot_node

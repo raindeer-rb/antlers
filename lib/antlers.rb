@@ -14,8 +14,8 @@ module Antlers
       Parser.parse(lexemes)
     end
 
-    def render(ast:, current_binding:, parent_binding: nil, namespace: nil)
-      ast.render(current_binding:, parent_binding:, namespace:)
+    def render(ast:, current_binding:, parent_binding: nil, slot_node: nil, namespace: nil)
+      ast.render(current_binding:, parent_binding:, slot_node:, namespace:)
     end
   end
 end

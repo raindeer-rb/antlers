@@ -10,7 +10,7 @@ module Antlers
   class Lexer
     def initialize
       @delimiters = ['<{', '}>', '{', '}']
-      @keywords = ['if:', 'for:', 'in:']
+      @keywords = ['if:', 'for:', 'in:', 'slot:', ':slot']
       @cursor = 0
     end
 
@@ -49,8 +49,9 @@ module Antlers
     def antlers_lexeme(antlers_segment:, segments:)
       return var(antlers_segment:) if var?(segments:)
 
-      name, props, _keywords = parse_segment(antlers_segment:)
+      name, props, keywords = parse_segment(antlers_segment:)
 
+      return slot_yield if slot_yield?(keywords)
       return slot(name:, props:) if slot?(name)
       return prop(name:, props:) if prop?(name)
 
@@ -70,11 +71,15 @@ module Antlers
     end
 
     def slot?(name)
-      name.start_with?(':') || name.end_with?(':')
+      name && (name.start_with?(':') || name.end_with?(':'))
+    end
+
+    def slot_yield?(keywords)
+      keywords.include?(':slot')
     end
 
     def prop?(name)
-      [*'A'..'Z'].include?(name[0])
+      name && [*'A'..'Z'].include?(name[0])
     end
 
     def var(antlers_segment:)
@@ -94,6 +99,10 @@ module Antlers
       end
 
       { slot_end: name.delete_prefix(':') }
+    end
+
+    def slot_yield
+      { slot: :default }
     end
 
     def prop(name:, props:)

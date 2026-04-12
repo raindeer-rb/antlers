@@ -3,6 +3,7 @@
 require_relative '../nodes/prop_node'
 require_relative '../nodes/slot_node'
 require_relative '../nodes/var_node'
+require_relative '../nodes/yield_node'
 
 module Antlers
   class NodeFactory
@@ -17,6 +18,10 @@ module Antlers
 
       def var_node(segment:)
         VarNode.new(value: segment[:var])
+      end
+
+      def yield_node(segment:)
+        YieldNode.new(name: segment[:slot])
       end
     end
   end

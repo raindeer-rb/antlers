@@ -2,14 +2,14 @@
 
 require 'low_node'
 
-module RBX
-  class LowPropNode < LowNode
+module Ruby
+  class PropNode < LowNode
     def initialize(event:)
       @ivar = 'Instance Variable'
     end
 
     def render(event:)
-      <html>{@ivar}</html>
+      @ivar
     end
   end
 end

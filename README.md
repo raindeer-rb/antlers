@@ -155,6 +155,7 @@ Antlers creates an Abstract Syntax Tree composed of the following `AntlerNode`s:
 **Branch nodes:**
 - `RootNode`
 - `SlotNode`
+- `YieldNode` - Renders `AntlerNode`s inside a `SlotNode`
 
 ## Integrations
 

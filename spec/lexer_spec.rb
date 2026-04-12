@@ -95,5 +95,17 @@ RSpec.describe Antlers::Lexer do
         expect(lexer.parse(template)).to eq([{ slot_def: 'SlotNode' }, { prop: 'PropNode' }, { slot_end: 'SlotNode' }])
       end
     end
+
+    context 'with a yield node' do
+      let(:template) do
+        <<~RUBY
+          <{ :slot }>
+        RUBY
+      end
+
+      it 'returns sequence' do
+        expect(lexer.parse(template)).to eq([{ slot: :default }])
+      end
+    end
   end
 end
