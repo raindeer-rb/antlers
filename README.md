@@ -123,12 +123,15 @@ end
 
 ## Advanced Techniques
 
-ℹ️ Variables (`{}`) are also useful for embedding text in RBX without Ruby syntax highlighting issues:
+### Strings
+
+Variables (`{}`) are also useful for embedding text in RBX without any syntax highlighting issues:
 ```ruby
 def render
   <html>{"I'm just a string"}</html>
 end
 ```
+ℹ️ **Translatable:** Text entered this way will be easy to translate in future based on region or language. [UNRELEASED]
 
 ## API
 
