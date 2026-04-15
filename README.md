@@ -41,7 +41,7 @@ end
 def render
   <html>
     <{ LayoutNode: }>
-      Arbitrary example text.
+      <{ UserNode user=@user }>
     <{ :LayoutNode }>
   </html>
 end
@@ -50,7 +50,7 @@ end
 The `LayoutNode` would look like:
 ```ruby
 class LayoutNode
-  def render(event:, title:)
+  def render(event:)
     <header>...</header>
     <{ :slot }>
     <footer>...</footer>
@@ -80,9 +80,6 @@ end
 
 # Directive.
 <{ UserNode user=user for: user in: @users }>
-
-# Directive with simplified prop.
-<{ UserNode user for: user in: @users }>
 ```
 
 ## Config [UNRELEASED]
@@ -166,7 +163,7 @@ end
 ```
 
 The result would be:
-```
+```HTML
 <header>...</header>
 <h1>Random User</h1>
 <p>I'm a person!</p>
