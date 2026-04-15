@@ -38,14 +38,10 @@ end
 
 **Slots:**
 ```ruby
-def initialize
-  @user = User.new
-end
-
 def render
   <html>
-    <{ LayoutNode: title=@user.username }>
-      <{ UserNode user=@user }>
+    <{ LayoutNode: }>
+      Arbitrary example text.
     <{ :LayoutNode }>
   </html>
 end
@@ -56,7 +52,6 @@ The `LayoutNode` would look like:
 class LayoutNode
   def render(event:, title:)
     <header>...</header>
-    <h1>{username}</h1>
     <{ :slot }>
     <footer>...</footer>
   end
@@ -137,6 +132,46 @@ def render
 end
 ```
 ℹ️ **Translatable:** Text entered this way will be easy to translate in future based on region or language. [UNRELEASED]
+
+## Full Examples
+
+### Slot
+
+```ruby
+class UserNode < LowNode
+  def initialize
+    @user = User.new(username: "Random User", bio: "I'm a person!")
+  end
+  
+  def render
+    <html>
+      <{ LayoutNode: title=@user.username }>
+        {@user.bio}
+      <{ :LayoutNode }>
+    </html>
+  end
+end
+```
+
+The `LayoutNode` would look like:
+```ruby
+class LayoutNode
+  def render(event:, title:)
+    <header>...</header>
+    <h1>{title}</h1>
+    <{ :slot }>
+    <footer>...</footer>
+  end
+end
+```
+
+The result would be:
+```
+<header>...</header>
+<h1>Random User</h1>
+<p>I'm a person!</p>
+<footer>...</footer>
+```
 
 ## API
 
