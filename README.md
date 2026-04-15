@@ -44,7 +44,7 @@ end
 
 def render
   <html>
-    <{ LayoutNode: username=@user.username }>
+    <{ LayoutNode: title=@user.username }>
       <{ UserNode user=@user }>
     <{ :LayoutNode }>
   </html>
@@ -54,7 +54,7 @@ end
 The `LayoutNode` would look like:
 ```ruby
 class LayoutNode
-  def render(event:, username:)
+  def render(event:, title:)
     <header>...</header>
     <h1>{username}</h1>
     <{ :slot }>
