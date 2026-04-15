@@ -38,6 +38,10 @@ end
 
 **Slots:**
 ```ruby
+def initialize
+  @user = User.new
+end
+
 def render
   <html>
     <{ LayoutNode: username=@user.username }>
@@ -50,10 +54,11 @@ end
 The `LayoutNode` would look like:
 ```ruby
 class LayoutNode
-  def render(event:, **props)
-    <header>Site Name</header>
+  def render(event:, username:)
+    <header>...</header>
+    <h1>{username}</h1>
     <{ :slot }>
-    <footer>More Info</footer>
+    <footer>...</footer>
   end
 end
 ```
