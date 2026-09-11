@@ -20,7 +20,7 @@ module Antlers
       @namespace = namespace
     end
 
-    def render(current_binding: nil, parent_binding: nil, slot_node: nil)
+    def render(current_binding: nil, parent_binding: nil, slot_node: nil, metadata: {})
       props = evaluate_props(props: @props, current_binding:)
       event = create_render_event(props:)
 

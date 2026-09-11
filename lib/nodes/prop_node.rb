@@ -16,7 +16,7 @@ module Antlers
     end
 
     # Classes referenced via "<{ MyNode }>" must implement class/instance and render/render_template methods (See LowNode).
-    def render(current_binding: nil, parent_binding: nil, slot_node: nil)
+    def render(current_binding: nil, parent_binding: nil, slot_node: nil, metadata: {})
       props = evaluate_props(props: @props, current_binding:)
       event = create_render_event(props:)
 
@@ -44,6 +44,7 @@ module Antlers
 
     def create_instance(class_proxy:, klass:, event:, props:)
       initialize_params = class_proxy.instance_methods[:initialize]&.tagged_params(:keyword)&.map(&:name) || []
+
       return klass.new(event:, **props) if initialize_params.include?(:event) && initialize_params.count > 1
       return klass.new(**props) if initialize_params.count > 1
       return klass.new(event:) if initialize_params.include?(:event)

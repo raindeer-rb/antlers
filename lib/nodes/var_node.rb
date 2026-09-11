@@ -18,7 +18,7 @@ module Antlers
       @raw = raw
     end
 
-    def render(current_binding: nil, parent_binding: nil, slot_node: nil)
+    def render(current_binding: nil, parent_binding: nil, slot_node: nil, metadata: {})
       result = evaluate(name: @value, current_binding:) || fallback(@value)
 
       return result if @raw

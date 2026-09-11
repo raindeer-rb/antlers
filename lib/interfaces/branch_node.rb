@@ -12,11 +12,11 @@ module Antlers
       @children = children
     end
 
-    def render(current_binding: nil, parent_binding: nil, slot_node: nil)
+    def render(current_binding: nil, parent_binding: nil, slot_node: nil, metadata: {})
       output = ''
 
       @children.each do |child|
-        output += child.render(current_binding:, parent_binding:, slot_node:) || ''
+        output += child.render(current_binding:, parent_binding:, slot_node:, metadata:) || ''
       end
 
       output

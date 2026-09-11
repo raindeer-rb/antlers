@@ -20,7 +20,7 @@ module Antlers
       @key = key
     end
 
-    def render(current_binding: nil, parent_binding: nil, slot_node: nil)
+    def render(current_binding: nil, parent_binding: nil, slot_node: nil, metadata: {})
       output = ''
 
       evaluate(name: @items, current_binding:).each do |value|
@@ -31,7 +31,7 @@ module Antlers
         current_binding.local_variable_set(@key, key) if @key
 
         @children.each do |child|
-          output += child.render(current_binding:, parent_binding:, slot_node:) || ''
+          output += child.render(current_binding:, parent_binding:, slot_node:, metadata:) || ''
         end
       end
 

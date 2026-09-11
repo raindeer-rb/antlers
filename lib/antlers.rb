@@ -13,8 +13,8 @@ module Antlers
       Parser.new(namespace:, node_types: elements[:node]).parse(sequence:, template:)
     end
 
-    def render(ast:, current_binding:, parent_binding: nil, slot_node: nil)
-      ast.render(current_binding:, parent_binding:, slot_node:)
+    def render(ast:, current_binding:, parent_binding: nil, slot_node: nil, metadata: {})
+      ast.render(current_binding:, parent_binding:, slot_node:, metadata:)
     end
   end
 end
