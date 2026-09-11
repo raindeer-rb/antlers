@@ -2,6 +2,7 @@
 
 require_relative 'elements'
 require_relative 'lexer'
+require_relative 'parser'
 require_relative '../interfaces/lexeme'
 require_relative '../interfaces/branch_node'
 require_relative '../interfaces/leaf_node'
