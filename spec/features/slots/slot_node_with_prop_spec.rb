@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+# When lowevent is required then antlers will send an event to render_template.
+require 'lowevent'
+
 require_relative '../../../lib/nodes/slot_node'
 require_relative '../../../lib/nodes/var_node'
 

@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'low_event'
 require_relative 'variables'
 
 module Antlers
@@ -16,10 +15,6 @@ module Antlers
     end
 
     private
-
-    def create_render_event(props:)
-      Low::Events::RenderEvent.new(action: :render, props:)
-    end
 
     def evaluate_props(props:, current_binding:)
       return {} if props.nil?

@@ -26,7 +26,6 @@ Gem::Specification.new do |spec|
   spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
 
   spec.add_dependency 'erb'
-  spec.add_dependency 'low_event'
   spec.add_dependency 'lowkey'
   spec.add_dependency 'plugs'
 end

@@ -15,12 +15,12 @@ module Antlers
       @namespace = namespace
     end
 
-    # Classes referenced via "<{ MyNode }>" must implement class/instance and render/render_template methods (See LowNode).
+    # Classes referenced via "<{ MyNode }>" must implement class/instance and render/render_template methods (See lownode).
     def render(current_binding: nil, parent_binding: nil, slot_node: nil, metadata: {})
       props = evaluate_props(props: @props, current_binding:)
-      event = create_render_event(props:)
+      event = possible_render_event(props:)
 
-      # TODO: Get LowLoad to load constants defined in "<{ MyNode }>" syntax so that we can resolve namespace/params on class load.
+      # TODO: Get dirload to load constants defined in "<{ MyNode }>" syntax so that we can resolve namespace/params on class load.
       klass = class_constant(namespace: @namespace&.split('::') || [], name: @name)
       class_proxy = Lowkey[klass.to_s].first[klass.to_s]
 

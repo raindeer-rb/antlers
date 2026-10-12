@@ -19,6 +19,13 @@ module Antlers
       'level_1'
     end
 
+    # Support sending an event to render_template hook when lowevent available. See lownode as an example implementation.
+    def possible_render_event(props:)
+      Low::Events::RenderEvent.new(action: :render, props:) if defined?(LowEvent)
+
+      nil
+    end
+
     class << self
       def match?(segment:)
         raise NotImplementedError

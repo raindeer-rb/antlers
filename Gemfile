@@ -6,10 +6,10 @@ source 'https://rubygems.org'
 gemspec
 
 group :development do
-  gem 'low_event', path: '../low_event'
+  gem 'dirload', path: '../dirload'
+  gem 'lowevent', path: '../lowevent'
   gem 'lowkey', path: '../lowkey'
-  gem 'lowload', path: '../lowload'
-  gem 'low_node', path: '../low_node'
+  gem 'lownode', path: '../lownode'
   gem 'plugs', path: '../plugs'
 
   gem 'irb'

@@ -22,7 +22,7 @@ module Antlers
 
     def render(current_binding: nil, parent_binding: nil, slot_node: nil, metadata: {})
       props = evaluate_props(props: @props, current_binding:)
-      event = create_render_event(props:)
+      event = possible_render_event(props:)
 
       # TODO: Get LowLoad to load constants defined in "<{ MyNode }>" syntax so that we can resolve namespace/params on class load.
       klass = class_constant(namespace: @namespace&.split('::') || [], name:)
