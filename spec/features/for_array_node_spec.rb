@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-LowLoad.lowload('spec/fixtures/for_node_array.rbx')
+dirload('spec/fixtures/for_node_array.rbx')
 
 RSpec.describe RBX::ForNodeArray do
   subject(:for_node) { described_class }

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-LowLoad.lowload('spec/fixtures/for_node_hash.rbx')
+dirload('spec/fixtures/for_node_hash.rbx')
 
 RSpec.describe RBX::ForNodeHash do
   subject(:for_node) { described_class }

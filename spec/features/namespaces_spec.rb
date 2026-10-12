@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-LowLoad.lowload('spec/fixtures/namespaces/child_node.rbx')
-LowLoad.lowload('spec/fixtures/namespaces/layout_node.rbx')
-LowLoad.lowload('spec/fixtures/namespaces/namespaced_child_node.rbx')
-LowLoad.lowload('spec/fixtures/namespaces/namespaced_layout_node.rbx')
+dirload('spec/fixtures/namespaces/child_node.rbx')
+dirload('spec/fixtures/namespaces/layout_node.rbx')
+dirload('spec/fixtures/namespaces/namespaced_child_node.rbx')
+dirload('spec/fixtures/namespaces/namespaced_layout_node.rbx')
 
 RSpec.describe 'Namespaces' do
   let(:event) { 'mock event' }

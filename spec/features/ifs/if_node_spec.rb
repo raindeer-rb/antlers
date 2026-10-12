@@ -2,7 +2,7 @@
 
 require_relative '../../../lib/nodes/if_node'
 
-LowLoad.lowload('spec/fixtures/ifs/if_node.rbx')
+dirload('spec/fixtures/ifs/if_node.rbx')
 
 RSpec.describe RBX::IfNode do
   subject(:if_node) { described_class.render(event: nil, boolean:) }

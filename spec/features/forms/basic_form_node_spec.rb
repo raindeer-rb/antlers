@@ -2,7 +2,7 @@
 
 require_relative '../../../lib/nodes/form_node'
 
-LowLoad.lowload('spec/fixtures/forms/basic_form_node.rbx')
+dirload('spec/fixtures/forms/basic_form_node.rbx')
 
 RSpec.describe RBX::BasicFormNode do
   subject(:form_node) { described_class }

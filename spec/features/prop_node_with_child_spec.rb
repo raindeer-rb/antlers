@@ -2,8 +2,8 @@
 
 require_relative '../../lib/nodes/prop_node'
 
-LowLoad.lowload('spec/fixtures/props/prop_node_var.rbx')
-LowLoad.lowload('spec/fixtures/props/prop_node_with_child.rbx')
+dirload('spec/fixtures/props/prop_node_var.rbx')
+dirload('spec/fixtures/props/prop_node_with_child.rbx')
 
 RSpec.describe RBX::PropNodeWithChild do
   subject(:prop_node) { described_class }

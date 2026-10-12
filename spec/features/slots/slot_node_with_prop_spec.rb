@@ -3,8 +3,8 @@
 require_relative '../../../lib/nodes/slot_node'
 require_relative '../../../lib/nodes/var_node'
 
-LowLoad.lowload('spec/fixtures/slots/slot_node_with_prop.rbx')
-LowLoad.lowload('spec/fixtures/layouts/layout_node_with_prop.rbx')
+dirload('spec/fixtures/slots/slot_node_with_prop.rbx')
+dirload('spec/fixtures/layouts/layout_node_with_prop.rbx')
 
 RSpec.describe RBX::SlotNodeWithProp do
   subject(:slot_node) { described_class }
