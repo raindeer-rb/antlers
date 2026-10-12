@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'low_node'
+require 'lownode'
 
 class LayoutNode < LowNode
   def render
