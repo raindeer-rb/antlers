@@ -14,7 +14,7 @@ module Antlers
       end
 
       def build(**)
-        new()
+        new
       end
     end
   end

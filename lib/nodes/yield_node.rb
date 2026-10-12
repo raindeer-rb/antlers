@@ -9,7 +9,7 @@ module Antlers
     end
 
     # Render the children in the binding of the parent.
-    def render(current_binding: nil, parent_binding:, slot_node:, metadata: {})
+    def render(parent_binding:, slot_node:, current_binding: nil, metadata: {})
       output = ''
 
       slot_node.children.each do |child|
