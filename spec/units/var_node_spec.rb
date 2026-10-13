@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'date'
 require 'ostruct'
 require_relative '../../lib/nodes/var_node'
 
@@ -21,6 +22,10 @@ class MockVarClass
 
   def method_parent
     OpenStruct.new({ method_child: true })
+  end
+
+  def published_at
+    DateTime.new(2026, 10, 13, 9, 30)
   end
 
   def instance_binding
@@ -61,6 +66,14 @@ RSpec.describe Antlers::VarNode do
 
       it 'evaluates a method chain' do
         expect(var_node.render(current_binding: mock_instance.instance_binding)).to eq('true')
+      end
+    end
+
+    context 'with an object' do
+      subject(:var_node) { described_class.new(value: 'published_at', raw: true) }
+
+      it 'renders a string' do
+        expect(var_node.render(current_binding: mock_instance.instance_binding)).to eq('2026-10-13T09:30:00+00:00')
       end
     end
 

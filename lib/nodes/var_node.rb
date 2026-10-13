@@ -17,7 +17,7 @@ module Antlers
     end
 
     def render(current_binding: nil, parent_binding: nil, slot_node: nil, metadata: {})
-      evaluate(value: @value, current_binding:, escape: !@raw)
+      evaluate(value: @value, current_binding:, escape: !@raw).to_s
     end
 
     class << self
