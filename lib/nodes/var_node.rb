@@ -26,7 +26,7 @@ module Antlers
       end
 
       def build(segment:, **)
-        new(value: segment[:var] || segment[:raw_var], raw: !!segment[:raw_var])
+        new(value: segment[:var] || segment[:raw_var], raw: !segment[:raw_var].nil?)
       end
     end
   end

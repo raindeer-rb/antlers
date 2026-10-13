@@ -2,7 +2,7 @@
 
 module Antlers
   module Lexeme
-    KEYWORDS = []
+    KEYWORDS = [].freeze
 
     def match?(name: nil, keywords: {}) = false
 

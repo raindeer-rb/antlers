@@ -7,7 +7,7 @@ require_relative 'antlers/parser'
 module Antlers
   module_function
 
-  DEFAULT_ELEMENTS = %i[root html form for if prop slot yield var]
+  DEFAULT_ELEMENTS = %i[root html form for if prop slot yield var].freeze
 
   def ast(template:, namespace: nil, elements: Elements[*DEFAULT_ELEMENTS])
     sequence = Lexer.new(lexeme_types: elements[:lexeme]).parse(template:)
