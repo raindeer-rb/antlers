@@ -9,15 +9,12 @@ module Antlers
     extend Queries
     extend self
 
-    # Variables are special and are matched by the lexer.
+    # Variables are special and are matched by the lexer in a hard-coded fashion.
     def match?(**)
       false
     end
 
     def lexeme(segment:, raw:, **)
-      # String is already interpolated or not depending on user input on the template layer, now we store it without those template quotes.
-      segment = segment[1..-2] if Queries.user_defined_string?(segment)
-
       return { raw_var: segment } if raw
 
       { var: segment }

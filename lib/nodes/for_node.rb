@@ -23,7 +23,7 @@ module Antlers
     def render(current_binding: nil, parent_binding: nil, slot_node: nil, metadata: {})
       output = ''
 
-      evaluate(name: @items, current_binding:).each do |value|
+      evaluate(value: @items, current_binding:, escape: false).each do |value|
         key, value = value if @key
 
         # TODO: Parallelize by creating new bindings and ensuring children have any args they need via RenderEvent.

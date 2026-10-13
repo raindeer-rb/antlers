@@ -31,7 +31,7 @@ RSpec.describe Antlers::Lexer do
       end
 
       it 'returns sequence' do
-        expect(lexer.parse(template:)).to eq([{ var: "I'm just a string" }])
+        expect(lexer.parse(template:)).to eq([{ var: %("I'm just a string") }])
       end
     end
 

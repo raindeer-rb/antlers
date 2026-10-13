@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'erb'
 require_relative '../support/queries'
 
 module Antlers
@@ -7,28 +8,29 @@ module Antlers
     extend Queries
 
     # Evaluation limited to the following for security and to stop a templating language becoming a programming language.
-    #  1. An instance variable
-    #  2. A method call/local variable
-    #  3. A method chain
-    #  4. A static string
-    def evaluate(name:, current_binding:)
-      return name.to_s unless current_binding
+    #  1. A static string
+    #  2. An instance variable
+    #  3. A method call/local variable
+    #  4. A method chain
+    def evaluate(value:, current_binding:, escape: true)
+      result = result(value:, current_binding:)
 
-      name, *chain = name.split('.')
+      return ERB::Util.html_escape(result) if escape
+
+      result
+    end
+
+    def result(value:, current_binding:)
+      return value[1..-2] if Queries.user_defined_string?(value)
+      return value unless current_binding
+
+      name, *chain = value.split('.')
 
       result = method_var(name:, current_binding:)
       return method_chain(result:, chain:) if chain.count > 0
       return result if result
 
       nil
-    rescue StandardError
-      nil
-    end
-
-    def fallback(value)
-      return value[1..-2] if Queries.user_defined_string?(value)
-
-      value
     end
 
     private

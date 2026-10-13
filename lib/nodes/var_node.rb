@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'erb'
-
 require_relative '../interfaces/leaf_node'
 require_relative '../modules/variables'
 
@@ -19,11 +17,7 @@ module Antlers
     end
 
     def render(current_binding: nil, parent_binding: nil, slot_node: nil, metadata: {})
-      result = evaluate(name: @value, current_binding:) || fallback(@value)
-
-      return result if @raw
-
-      ERB::Util.html_escape(result)
+      evaluate(value: @value, current_binding:, escape: !@raw)
     end
 
     class << self

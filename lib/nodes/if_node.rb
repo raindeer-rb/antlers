@@ -21,7 +21,7 @@ module Antlers
     def render(current_binding: nil, parent_binding: nil, slot_node: nil, metadata: {})
       output = ''.dup
 
-      if evaluate(name: @value, current_binding:)
+      if evaluate(value: @value, current_binding:, escape: false)
         @children.each do |child|
           output += child.render(current_binding:, parent_binding:, slot_node:, metadata:) || ''
         end

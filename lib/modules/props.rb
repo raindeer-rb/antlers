@@ -22,7 +22,7 @@ module Antlers
       evaluated_props = {}
 
       props.each do |name, value|
-        evaluated_props[name] = evaluate(name: value, current_binding:) || fallback(value)
+        evaluated_props[name] = evaluate(value:, current_binding:)
       end
 
       evaluated_props
