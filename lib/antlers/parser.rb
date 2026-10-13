@@ -36,7 +36,13 @@ module Antlers
 
     def sub_branch(node:, sequence:, end_key:, end_name: nil)
       sub_sequence = []
-      sub_sequence << sequence.shift until sequence.first.is_a?(Hash) && sequence.first[end_key] == end_name
+
+      until sequence.first.is_a?(Hash) && sequence.first[end_key] == end_name
+        raise ParserError, "Missing end tag for #{node.class}" if sequence.empty?
+
+        sub_sequence << sequence.shift
+      end
+
       # Remove the end tag we just stopped before.
       sequence.shift
 

@@ -73,6 +73,10 @@ RSpec.describe Antlers::Parser do
         expect(parser.parse(sequence:).children).to eq([for_node])
       end
 
+      it 'raises when the end tag is missing' do
+        expect { parser.parse(sequence: sequence[0..1]) }.to raise_error(Antlers::Parser::ParserError, /Missing end tag/)
+      end
+
       context 'with hash' do
         let(:sequence) do
           [{ for_def: 'value', key: 'key', in: 'hash' }, { var: 'item' }, { for_end: 'level_1' }]
