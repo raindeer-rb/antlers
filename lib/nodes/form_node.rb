@@ -20,7 +20,7 @@ module Antlers
     end
 
     def render(current_binding: nil, parent_binding: nil, slot_node: nil, metadata: {})
-      output = "<form action='#{@action}' method='#{@method}'>"
+      output = "<form action='#{action(current_binding:)}' method='#{@method}'>"
 
       @children.each do |child|
         output += child.render(current_binding:, parent_binding:, slot_node:, metadata:) || ''
@@ -28,6 +28,14 @@ module Antlers
 
       output += '</form>'
       output
+    end
+
+    private
+
+    def action(current_binding:)
+      return if @action.nil?
+
+      evaluate(value: @action, current_binding:)
     end
 
     class << self

@@ -14,10 +14,7 @@ module Antlers
     end
 
     def lexeme(keywords:, **)
-      if keywords.key?('form:')
-        action = keywords['form:'] ? keywords['form:'][1...-1] : nil
-        return { form_def: action }
-      end
+      return { form_def: keywords['form:'] } if keywords.key?('form:')
 
       { form_end: 'level_1' }
     end

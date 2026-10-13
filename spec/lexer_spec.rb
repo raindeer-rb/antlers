@@ -151,7 +151,25 @@ RSpec.describe Antlers::Lexer do
       end
 
       let(:sequence) do
-        [{ form_def: '/submit' }, '<button>Submit</button>', { form_end: 'level_1' }]
+        [{ form_def: %('/submit') }, '<button>Submit</button>', { form_end: 'level_1' }]
+      end
+
+      it 'returns sequence' do
+        expect(lexer.parse(template:)).to eq(sequence)
+      end
+    end
+
+    context 'with a form node that has a variable action' do
+      let(:template) do
+        <<~RUBY
+          <{ form: user }>
+            <button>Submit</button>
+          <{ :form }>
+        RUBY
+      end
+
+      let(:sequence) do
+        [{ form_def: 'user' }, '<button>Submit</button>', { form_end: 'level_1' }]
       end
 
       it 'returns sequence' do
