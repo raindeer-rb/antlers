@@ -73,7 +73,7 @@ module Antlers
 
       while (keyword = keywords.shift)
         keyword.strip!
-        value = keyword.end_with?(':') && value?(keywords.first.strip) ? keywords.shift.strip : nil
+        value = keyword.end_with?(':') && value?(keywords.first) ? keywords.shift.strip : nil
         key_values[keyword] = value
       end
 
@@ -81,7 +81,9 @@ module Antlers
     end
 
     def value?(string)
-      !(string.start_with?(':') || string.end_with?(':'))
+      # Support keywords without a value like "<{ form: }>" whose value will become an empty string.
+      string = string.to_s.strip
+      !string.empty? && !(string.start_with?(':') || string.end_with?(':'))
     end
 
     def brackets?(segments:)

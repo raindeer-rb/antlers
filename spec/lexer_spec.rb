@@ -159,6 +159,24 @@ RSpec.describe Antlers::Lexer do
       end
     end
 
+    context 'with a keyword that has no value' do
+      let(:template) do
+        <<~RUBY
+          <{ form: }>
+            <button>Submit</button>
+          <{ :form }>
+        RUBY
+      end
+
+      let(:sequence) do
+        [{ form_def: nil }, '<button>Submit</button>', { form_end: 'level_1' }]
+      end
+
+      it 'returns sequence' do
+        expect(lexer.parse(template:)).to eq(sequence)
+      end
+    end
+
     context 'with a slot node' do
       let(:template) do
         <<~RUBY
