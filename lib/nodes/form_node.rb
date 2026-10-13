@@ -32,7 +32,7 @@ module Antlers
 
     class << self
       def match?(segment:)
-        segment[DEF_KEY]
+        segment.is_a?(Hash) && segment.key?(DEF_KEY)
       end
 
       def build(segment:, **)
