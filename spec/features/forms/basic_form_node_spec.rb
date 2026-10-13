@@ -9,7 +9,7 @@ RSpec.describe RBX::BasicFormNode do
 
   describe '<{ form: }>' do
     it 'renders form' do
-      expect(form_node.render.response.body.read).to eq(
+      expect(form_node.render.response.body.read.squish).to eq(
         <<~HTML.squish
           <form action='/submit' method='POST'>
             <button>Submit</button>

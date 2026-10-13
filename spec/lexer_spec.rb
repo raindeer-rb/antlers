@@ -35,6 +35,22 @@ RSpec.describe Antlers::Lexer do
       end
     end
 
+    context 'with variables in text' do
+      let(:template) do
+        <<~HTML
+          <p>
+            Hello {name}, welcome {a} {b}
+          </p>
+        HTML
+      end
+
+      it 'preserves whitespace' do
+        expect(lexer.parse(template:)).to eq(
+          ["<p>\n  Hello ", { var: 'name' }, ', welcome ', { var: 'a' }, ' ', { var: 'b' }, "\n</p>"]
+        )
+      end
+    end
+
     context 'with an instance variable' do
       let(:template) do
         <<~RUBY
@@ -73,9 +89,9 @@ RSpec.describe Antlers::Lexer do
 
         let(:sequence) do
           [
-            '<div class="', { var: '@mock_var' }, '">',
+            '<div class="', { var: '@mock_var' }, "\">\n  ",
               { prop: 'PropNode', props: { prop_with_val: 'mock_val', prop_without_val: nil } },
-            '</div>'
+            "\n</div>"
           ]
         end
 
@@ -95,7 +111,7 @@ RSpec.describe Antlers::Lexer do
       end
 
       let(:sequence) do
-        [{ for_def: 'value', in: 'array' }, { var: 'value' }, { for_end: 'level_1' }]
+        [{ for_def: 'value', in: 'array' }, "\n  ", { var: 'value' }, "\n", { for_end: 'level_1' }]
       end
 
       it 'returns sequence' do
@@ -112,7 +128,7 @@ RSpec.describe Antlers::Lexer do
         end
 
         let(:sequence) do
-          [{ for_def: 'value', key: 'key', in: 'hash' }, { var: 'item' }, { for_end: 'level_1' }]
+          [{ for_def: 'value', key: 'key', in: 'hash' }, "\n  ", { var: 'item' }, "\n", { for_end: 'level_1' }]
         end
 
         it 'returns sequence' do
@@ -132,7 +148,7 @@ RSpec.describe Antlers::Lexer do
         end
 
         let(:sequence) do
-          ['<html>', { for_def: 'item', in: 'items' }, { var: 'item' }, { for_end: 'level_1' }, '</html>']
+          ["<html>\n  ", { for_def: 'item', in: 'items' }, "\n    ", { var: 'item' }, "\n  ", { for_end: 'level_1' }, "\n</html>"]
         end
 
         it 'returns sequence' do
@@ -151,7 +167,7 @@ RSpec.describe Antlers::Lexer do
       end
 
       let(:sequence) do
-        [{ form_def: %('/submit') }, '<button>Submit</button>', { form_end: 'level_1' }]
+        [{ form_def: %('/submit') }, "\n  <button>Submit</button>\n", { form_end: 'level_1' }]
       end
 
       it 'returns sequence' do
@@ -169,7 +185,7 @@ RSpec.describe Antlers::Lexer do
       end
 
       let(:sequence) do
-        [{ form_def: 'user' }, '<button>Submit</button>', { form_end: 'level_1' }]
+        [{ form_def: 'user' }, "\n  <button>Submit</button>\n", { form_end: 'level_1' }]
       end
 
       it 'returns sequence' do
@@ -187,7 +203,7 @@ RSpec.describe Antlers::Lexer do
       end
 
       let(:sequence) do
-        [{ form_def: nil }, '<button>Submit</button>', { form_end: 'level_1' }]
+        [{ form_def: nil }, "\n  <button>Submit</button>\n", { form_end: 'level_1' }]
       end
 
       it 'returns sequence' do
@@ -205,7 +221,7 @@ RSpec.describe Antlers::Lexer do
       end
 
       it 'returns sequence' do
-        expect(lexer.parse(template:)).to eq([{ slot_def: 'SlotNode' }, { prop: 'PropNode' }, { slot_end: 'SlotNode' }])
+        expect(lexer.parse(template:)).to eq([{ slot_def: 'SlotNode' }, "\n  ", { prop: 'PropNode' }, "\n", { slot_end: 'SlotNode' }])
       end
     end
 

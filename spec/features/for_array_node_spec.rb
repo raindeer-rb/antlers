@@ -7,7 +7,7 @@ RSpec.describe RBX::ForNodeArray do
 
   describe '<{ for: value in: @items }>' do
     it 'renders value' do
-      expect(RBX::ForNodeArray.render.response.body.read).to eq(
+      expect(RBX::ForNodeArray.render.response.body.read.squish).to eq(
         <<~HTML.squish
           <ul>
             <li>1</li>

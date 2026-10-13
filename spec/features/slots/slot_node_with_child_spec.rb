@@ -15,7 +15,7 @@ RSpec.describe RBX::SlotNodeWithChild do
   describe '#render' do
     context 'when slot has a prop node' do
       it 'renders both slot and prop node' do
-        expect(parent_node.render.response.body.read).to eq('<html><strong>Parent Variable</strong></html>')
+        expect(parent_node.render.response.body.read.squish).to eq('<html><strong>Parent Variable</strong></html>')
       end
     end
   end

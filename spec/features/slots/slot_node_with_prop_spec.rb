@@ -17,7 +17,7 @@ RSpec.describe RBX::SlotNodeWithProp do
   describe '#render' do
     context 'when slot has a prop' do
       it 'renders prop into yield' do
-        expect(slot_node.render.response.body.read).to eq('<html>LayoutHappyYield</html>')
+        expect(slot_node.render.response.body.read.squish).to eq('<html>LayoutHappyYield</html>')
       end
     end
   end

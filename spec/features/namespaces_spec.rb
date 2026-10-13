@@ -10,7 +10,7 @@ RSpec.describe 'Namespaces' do
 
   context 'without namespace' do
     it 'resolves to layout' do
-      expect(ChildNode.render.response.body.read).to eq(
+      expect(ChildNode.render.response.body.read.squish).to eq(
         <<~HTML.squish
           <html class="without-namespace">
             <p></p>
@@ -22,7 +22,7 @@ RSpec.describe 'Namespaces' do
 
   context 'with namespace' do
     it 'resolves to namespaced layout' do
-      expect(Namespace::ChildNode.render.response.body.read).to eq(
+      expect(Namespace::ChildNode.render.response.body.read.squish).to eq(
         <<~HTML.squish
           <html class="with-namespace">
             <p></p>

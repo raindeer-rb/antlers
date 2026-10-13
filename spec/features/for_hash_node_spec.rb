@@ -7,7 +7,7 @@ RSpec.describe RBX::ForNodeHash do
 
   describe '<{ for: key, value in: @items }>' do
     it 'renders items' do
-      expect(RBX::ForNodeHash.render.response.body.read).to eq(
+      expect(RBX::ForNodeHash.render.response.body.read.squish).to eq(
         <<~HTML.squish
           <ul>
             <li>one:1</li>

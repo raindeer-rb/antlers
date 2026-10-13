@@ -22,7 +22,8 @@ module Antlers
       sequence = []
 
       # Split on delimiters and retain capture groups.
-      segments = template.split(/(#{Regexp.union(@delimiters)})/).map(&:strip)
+      # Whitespace inside the template is kept, but not around it, like the indentation of a template in a method body.
+      segments = template.strip.split(/(#{Regexp.union(@delimiters)})/)
 
       until segments[@cursor].nil?
         if (segment = antlers_segment(segments:))
@@ -50,6 +51,7 @@ module Antlers
     end
 
     def antlers_lexeme(segment:, segments:)
+      segment = segment.strip
       name, props, keywords = parse_antlers_segment(segment:)
 
       return @var_lexeme.lexeme(segment:, raw: false) if @var_lexeme && brackets?(segments:)
