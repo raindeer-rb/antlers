@@ -13,6 +13,19 @@ module Antlers
       super(name:, props:)
 
       @namespace = namespace
+      @class_params = {}
+
+      # Look up params on class load (when the template is built) so that rendering doesn't need Lowkey's cache.
+      # A class defined in a file that hasn't loaded yet is pending until "Antlers.resolve_nodes" or its first render.
+      PropNode.pending << self unless resolve
+    end
+
+    # Looks up the params of the prop's class when the class is defined.
+    def resolve
+      return false unless (klass = node_class)
+
+      class_params(klass:)
+      true
     end
 
     # Classes referenced via "<{ MyNode }>" must implement class/instance and render/render_template methods (See lownode).
@@ -20,17 +33,27 @@ module Antlers
       props = evaluate_props(props: @props, current_binding:)
       event = possible_render_event(props:)
 
-      # TODO: Get dirload to load constants defined in "<{ MyNode }>" syntax so that we can resolve namespace/params on class load.
-      klass = class_constant(namespace: @namespace&.split('::') || [], name: @name)
-      class_proxy = Lowkey[klass.to_s].first[klass.to_s]
+      klass = node_class || raise(NameError, "uninitialized constant #{@name}")
+      initialize_params, render_params = class_params(klass:)
 
-      instance = create_instance(class_proxy:, klass:, event:, props:)
+      instance = create_instance(initialize_params:, klass:, event:, props:)
       return instance.render_template(event:, parent_binding:, props:) if klass.template
 
-      render_args(class_proxy:, instance:, event:, props:)
+      render_args(render_params:, instance:, event:, props:)
     end
 
     class << self
+      # Prop nodes whose class wasn't defined when their template was built.
+      def pending
+        @pending ||= []
+      end
+
+      # Resolves pending prop nodes once every class has loaded, returning those whose class is still undefined.
+      def resolve
+        pending.reject!(&:resolve)
+        pending
+      end
+
       def match?(segment:)
         segment[:prop]
       end
@@ -42,9 +65,24 @@ module Antlers
 
     private
 
-    def create_instance(class_proxy:, klass:, event:, props:)
-      initialize_params = class_proxy.instance_methods[:initialize]&.tagged_params(:keyword)&.map(&:name) || []
+    def node_class
+      class_constant(namespace: @namespace&.split('::') || [], name: @name)
+    end
 
+    # Params are kept per class, so that a reloaded class has its params looked up again.
+    # The class's file path is used as Lowkey loads a file path that has been cleared from its cache.
+    def class_params(klass:)
+      @class_params[klass] ||= begin
+        file_path, = Object.const_source_location(klass.name)
+        class_proxy = Lowkey[file_path][klass.name]
+
+        %i[initialize render].map do |method_name|
+          class_proxy.instance_methods[method_name]&.tagged_params(:keyword)&.map(&:name) || []
+        end
+      end
+    end
+
+    def create_instance(initialize_params:, klass:, event:, props:)
       return klass.new(event:, **props) if initialize_params.include?(:event) && initialize_params.count > 1
       return klass.new(**props) if initialize_params.count > 1
       return klass.new(event:) if initialize_params.include?(:event)
@@ -52,8 +90,7 @@ module Antlers
       klass.new
     end
 
-    def render_args(class_proxy:, instance:, event:, props:)
-      render_params = class_proxy.instance_methods[:render]&.tagged_params(:keyword)&.map(&:name) || []
+    def render_args(render_params:, instance:, event:, props:)
       return instance.render(event:, **props) if render_params.include?(:event) && render_params.count > 1
       return instance.render(event:) if render_params.include?(:event)
 
