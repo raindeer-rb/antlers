@@ -7,7 +7,7 @@ PATH
 PATH
   remote: ../lowevent
   specs:
-    lowevent (0.8.0)
+    lowevent (0.8.1)
       lowtype (~> 1.4)
       observers
       protocol-http
@@ -16,7 +16,7 @@ PATH
 PATH
   remote: ../lowkey
   specs:
-    lowkey (0.5.0)
+    lowkey (0.6.0)
       prism
 
 PATH
@@ -50,7 +50,7 @@ PATH
 PATH
   remote: .
   specs:
-    antlers (1.2.0)
+    antlers (1.2.1)
       erb
       lowkey
       plugs
@@ -100,7 +100,7 @@ GEM
     language_server-protocol (3.17.0.6)
     lint_roller (1.1.0)
     logger (1.7.0)
-    lowtype (1.5.1)
+    lowtype (1.6.0)
       dirload
       expressions (~> 0.1)
       lowkey (~> 0.5)
@@ -195,7 +195,7 @@ DEPENDENCIES
   rubocop
 
 CHECKSUMS
-  antlers (1.2.0)
+  antlers (1.2.1)
   ast (2.4.3) sha256=954615157c1d6a382bc27d690d973195e79db7f55e9765ac7c481c60bdb4d383
   async (2.46.0) sha256=34f984733dbf63a997376346451ec995e858cacc3105e86ccfeaf8877b4f490b
   async-http (0.105.0) sha256=55191969d5cf61be5fbc2e0aadd51d77085318ba192a5ff5e12e3aba0826906a
@@ -218,11 +218,11 @@ CHECKSUMS
   language_server-protocol (3.17.0.6) sha256=5ef2c0c138f8267e1bc631d3328347d354f96724b0af22f2c79516120443b7f0
   lint_roller (1.1.0) sha256=2c0c845b632a7d172cb849cc90c1bce937a28c5c8ccccb50dfd46a485003cc87
   logger (1.7.0) sha256=196edec7cc44b66cfb40f9755ce11b392f21f7967696af15d274dde7edff0203
-  lowevent (0.8.0)
-  lowkey (0.5.0)
+  lowevent (0.8.1)
+  lowkey (0.6.0)
   lowloop (0.8.1)
   lownode (0.5.2)
-  lowtype (1.5.1) sha256=996068f32f1e5f3de73af56b18e5472c7aadaaf5636bef4d3e1838abebc3b9b0
+  lowtype (1.6.0) sha256=f60b005a147a0c04390f4420b7e345c7477a5d7eb65c8b0e670112327d74981d
   observers (0.9.0) sha256=0680b9be67265e5cac81b4b96648bd6f0f85e5c9b03df6e82c290fb4943de0fa
   openssl (4.0.2) sha256=1037ad2868ae58df9ad917891c0c0f9815a1172f6846d4bcdd508e4c2ee747c2
   ostruct (0.6.3) sha256=95a2ed4a4bd1d190784e666b47b2d3f078e4a9efda2fccf18f84ddc6538ed912
