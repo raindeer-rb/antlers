@@ -2,6 +2,7 @@
 
 require_relative '../../lib/nodes/prop_node'
 require_relative '../fixtures/props/prop_node'
+require_relative '../fixtures/props/single_prop_nodes'
 dirload('spec/fixtures/props/prop_node.rbx')
 
 # Render an Antlers node, which renders its corresponding named LowNode, which renders its Antlers template.
@@ -50,6 +51,26 @@ RSpec.describe Antlers::PropNode do
 
       it 'raises a name error on render' do
         expect { prop_node.render }.to raise_error(NameError, 'uninitialized constant MissingNode')
+      end
+    end
+
+    context 'with a single prop' do
+      it 'passes it to initialize' do
+        prop_node = described_class.new(name: 'Ruby::InitializePropNode', namespace: 'Ruby::InitializePropNode', props: { limit: '3' })
+
+        expect(prop_node.render).to eq('3 (Integer)')
+      end
+
+      it 'passes it to render' do
+        prop_node = described_class.new(name: 'Ruby::RenderPropNode', namespace: 'Ruby::RenderPropNode', props: { limit: "'three'" })
+
+        expect(prop_node.render).to eq('"three" (String)')
+      end
+
+      it 'passes a number from a template' do
+        ast = Antlers.ast(template: '<{ Ruby::InitializePropNode limit=3 }>')
+
+        expect(Antlers.render(ast:, current_binding: binding)).to eq('3 (Integer)')
       end
     end
 

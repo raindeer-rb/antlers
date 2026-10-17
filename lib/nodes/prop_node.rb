@@ -82,16 +82,20 @@ module Antlers
       end
     end
 
+    # Props are passed when the method takes any keyword besides event, like a single "limit:".
     def create_instance(initialize_params:, klass:, event:, props:)
-      return klass.new(event:, **props) if initialize_params.include?(:event) && initialize_params.count > 1
-      return klass.new(**props) if initialize_params.count > 1
+      takes_props = (initialize_params - [:event]).any?
+      return klass.new(event:, **props) if initialize_params.include?(:event) && takes_props
+      return klass.new(**props) if takes_props
       return klass.new(event:) if initialize_params.include?(:event)
 
       klass.new
     end
 
     def render_args(render_params:, instance:, event:, props:)
-      return instance.render(event:, **props) if render_params.include?(:event) && render_params.count > 1
+      takes_props = (render_params - [:event]).any?
+      return instance.render(event:, **props) if render_params.include?(:event) && takes_props
+      return instance.render(**props) if takes_props
       return instance.render(event:) if render_params.include?(:event)
 
       instance.render
