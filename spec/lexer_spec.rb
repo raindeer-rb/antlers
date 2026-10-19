@@ -119,6 +119,34 @@ RSpec.describe Antlers::Lexer do
       end
     end
 
+    context 'with a quoted prop containing spaces' do
+      let(:template) { %(<{ PropNode title='A title = good' label="for: in: all" size=2 }>) }
+
+      it 'keeps the quoted value whole' do
+        expect(lexer.parse(template:)).to eq(
+          [{ prop: 'PropNode', props: { title: "'A title = good'", label: '"for: in: all"', size: '2' } }]
+        )
+      end
+    end
+
+    context 'with a quoted slot prop containing spaces' do
+      let(:template) { "<{ Layout: title='AI, APIs... and humans' section='home' }>x<{ :Layout }>" }
+
+      it 'keeps the quoted value whole' do
+        expect(lexer.parse(template:)).to eq(
+          [{ slot_def: 'Layout', props: { title: "'AI, APIs... and humans'", section: "'home'" } }, 'x', { slot_end: 'Layout' }]
+        )
+      end
+    end
+
+    context 'with a quoted string variable containing spaces' do
+      let(:template) { %({"A title = good"}) }
+
+      it 'keeps the variable whole' do
+        expect(lexer.parse(template:)).to eq([{ var: '"A title = good"' }])
+      end
+    end
+
     context 'with a for node' do
       let(:template) do
         <<~RUBY

@@ -6,6 +6,9 @@ module Antlers
   class LexerError < StandardError; end
 
   class Lexer
+    # Only matches when the rest of the segment has balanced quotes, so title='A title = good' isn't split inside its quotes.
+    OUTSIDE_QUOTES = /(?=(?:[^'"]|'[^']*'|"[^"]*")*\z)/
+
     def initialize(lexeme_types:)
       @lexeme_types = lexeme_types.to_a
       @var_lexeme = @lexeme_types.find { it == VarLexeme }
@@ -52,9 +55,9 @@ module Antlers
 
     def antlers_lexeme(segment:, segments:)
       segment = segment.strip
-      name, props, keywords = parse_antlers_segment(segment:)
-
       return @var_lexeme.lexeme(segment:, raw: false) if @var_lexeme && brackets?(segments:)
+
+      name, props, keywords = parse_antlers_segment(segment:)
 
       lexeme = @lexeme_types.find { it.match?(name:, keywords:) }
       return lexeme.lexeme(name:, props:, keywords:) if lexeme
@@ -65,9 +68,10 @@ module Antlers
     end
 
     # Keywords are whole words, so a name like "Plain::Card" isn't split on the "in:" in it.
+    # Props are split into tokens like ['title', '=', "'A title'", 'size', '=', '2'].
     def parse_antlers_segment(segment:)
-      name_and_props, *keywords = segment.split(/(?<!\S)(#{Regexp.union(@keywords)})(?!\S)/)
-      name, *props = name_and_props.split(' ')
+      name_and_props, *keywords = segment.split(/(?<!\S)(#{Regexp.union(@keywords)})(?!\S)#{OUTSIDE_QUOTES}/)
+      name, *props = name_and_props.split(/(=)#{OUTSIDE_QUOTES}|\s+#{OUTSIDE_QUOTES}/).reject(&:empty?)
       [name, props, parse_keywords(keywords:)]
     end
 

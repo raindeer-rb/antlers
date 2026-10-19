@@ -12,11 +12,9 @@ module Antlers
 
     private
 
-    def props(props)
-      odd_props = props.join(' ').split(/(=)|\s/)
-
-      return {} unless odd_props.any?
-
+    # Takes tokens already split by the lexer, like ['title', '=', "'A title'", 'size', '=', '2'].
+    def props(tokens)
+      odd_props = tokens.dup
       props = {}
       until odd_props.empty?
         prop = odd_props.shift
