@@ -3,6 +3,7 @@
 require_relative '../../lib/nodes/prop_node'
 require_relative '../fixtures/props/prop_node'
 require_relative '../fixtures/props/single_prop_nodes'
+require_relative '../fixtures/props/plain_nodes'
 dirload('spec/fixtures/props/prop_node.rbx')
 
 # Render an Antlers node, which renders its corresponding named LowNode, which renders its Antlers template.
@@ -71,6 +72,21 @@ RSpec.describe Antlers::PropNode do
         ast = Antlers.ast(template: '<{ Ruby::InitializePropNode limit=3 }>')
 
         expect(Antlers.render(ast:, current_binding: binding)).to eq('3 (Integer)')
+      end
+    end
+
+    context 'with a plain Ruby class' do
+      it 'gives initialize and render only the props each takes' do
+        ast = Antlers.ast(template: "<{ Simple::PropNode limit=3 suffix='!' }>")
+
+        expect(Antlers.render(ast:, current_binding: binding)).to eq('3!')
+      end
+
+      it 'gives render the slot as slot:' do
+        ast = Antlers.ast(template: "<{ Simple::SlotNode: title='Notes' }><b>{name}</b><{ :Simple::SlotNode }>")
+        current_binding = binding.tap { it.local_variable_set(:name, 'Mark') }
+
+        expect(Antlers.render(ast:, current_binding:)).to eq('<section title="Notes"><b>Mark</b></section>')
       end
     end
 

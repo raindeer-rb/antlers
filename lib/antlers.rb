@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'antlers/elements'
+require_relative 'antlers/keywords'
 require_relative 'antlers/lexer'
 require_relative 'antlers/parser'
 
@@ -18,7 +19,7 @@ module Antlers
     ast.render(current_binding:, parent_binding:, slot_node:, metadata:)
   end
 
-  # Call once an app has loaded, so that prop nodes built before their class loaded don't need Lowkey to render.
+  # Call once an app has loaded, to find prop nodes built before their class loaded.
   # Returns the prop nodes whose class is still undefined, which look up their class when first rendered.
   def resolve_nodes
     PropNode.resolve
