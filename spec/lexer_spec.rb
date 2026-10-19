@@ -23,6 +23,24 @@ RSpec.describe Antlers::Lexer do
       end
     end
 
+    context 'with a namespace containing a keyword' do
+      let(:template) { '<{ Plain::Card size=2 }><{ Admin::Card: }>x<{ :Admin::Card }>' }
+
+      it 'only splits on keywords that are whole words' do
+        expect(lexer.parse(template:)).to eq(
+          [{ prop: 'Plain::Card', props: { size: '2' } }, { slot_def: 'Admin::Card' }, 'x', { slot_end: 'Admin::Card' }]
+        )
+      end
+    end
+
+    context 'with a loop' do
+      let(:template) { '<{ for: item in: items }>{item}<{ :for }>' }
+
+      it 'still splits its keywords' do
+        expect(lexer.parse(template:)).to eq([{ for_def: 'item', in: 'items' }, { var: 'item' }, { for_end: 'level_1' }])
+      end
+    end
+
     context 'with a variable' do
       let(:template) do
         <<~RUBY
