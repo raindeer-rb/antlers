@@ -9,9 +9,10 @@ module Antlers
 
     # Evaluation limited to the following for security and to stop a templating language becoming a programming language.
     #  1. A static string
-    #  2. An instance variable
-    #  3. A method call/local variable
-    #  4. A method chain
+    #  2. A number, like 3 or 1.5
+    #  3. An instance variable
+    #  4. A method call/local variable
+    #  5. A method chain
     def evaluate(value:, current_binding:, escape: true)
       result = result(value:, current_binding:)
 
@@ -22,6 +23,7 @@ module Antlers
 
     def result(value:, current_binding:)
       return value[1..-2] if Queries.user_defined_string?(value)
+      return Queries.number(value) if Queries.number?(value)
       return value unless current_binding
 
       name, *chain = value.split('.')

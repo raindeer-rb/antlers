@@ -64,8 +64,9 @@ module Antlers
       raise LexerError, "Unrecognised syntax: '#{segment}'"
     end
 
+    # Keywords are whole words, so a name like "Plain::Card" isn't split on the "in:" in it.
     def parse_antlers_segment(segment:)
-      name_and_props, *keywords = segment.split(/(#{Regexp.union(@keywords)})/)
+      name_and_props, *keywords = segment.split(/(?<!\S)(#{Regexp.union(@keywords)})(?!\S)/)
       name, *props = name_and_props.split(' ')
       [name, props, parse_keywords(keywords:)]
     end

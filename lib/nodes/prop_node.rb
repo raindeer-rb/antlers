@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require_relative '../antlers/keywords'
 require_relative '../interfaces/leaf_node'
 require_relative '../modules/namespace'
 require_relative '../modules/props'
@@ -13,6 +14,14 @@ module Antlers
       super(name:, props:)
 
       @namespace = namespace
+
+      # A class defined in a file that hasn't loaded yet is pending until "Antlers.resolve_nodes" or its first render.
+      PropNode.pending << self unless resolve
+    end
+
+    # Whether the prop's class is defined.
+    def resolve
+      !node_class.nil?
     end
 
     # Classes referenced via "<{ MyNode }>" must implement class/instance and render/render_template methods (See lownode).
@@ -20,17 +29,28 @@ module Antlers
       props = evaluate_props(props: @props, current_binding:)
       event = possible_render_event(props:)
 
-      # TODO: Get dirload to load constants defined in "<{ MyNode }>" syntax so that we can resolve namespace/params on class load.
-      klass = class_constant(namespace: @namespace&.split('::') || [], name: @name)
-      class_proxy = Lowkey[klass.to_s].first[klass.to_s]
+      klass = node_class || raise(NameError, "uninitialized constant #{@name}")
 
-      instance = create_instance(class_proxy:, klass:, event:, props:)
-      return instance.render_template(event:, parent_binding:, props:) if klass.template
+      # Initialize and render each get the props they take, and the event if they take it.
+      keywords = props.merge(event:)
+      instance = klass.new(**Keywords.accepted(klass.instance_method(:initialize), keywords))
+      return instance.render_template(event:, parent_binding:, props:) if klass.respond_to?(:template) && klass.template
 
-      render_args(class_proxy:, instance:, event:, props:)
+      instance.render(**Keywords.accepted(instance.method(:render), keywords))
     end
 
     class << self
+      # Prop nodes whose class wasn't defined when their template was built.
+      def pending
+        @pending ||= []
+      end
+
+      # Resolves pending prop nodes once every class has loaded, returning those whose class is still undefined.
+      def resolve
+        pending.reject!(&:resolve)
+        pending
+      end
+
       def match?(segment:)
         segment[:prop]
       end
@@ -42,22 +62,8 @@ module Antlers
 
     private
 
-    def create_instance(class_proxy:, klass:, event:, props:)
-      initialize_params = class_proxy.instance_methods[:initialize]&.tagged_params(:keyword)&.map(&:name) || []
-
-      return klass.new(event:, **props) if initialize_params.include?(:event) && initialize_params.count > 1
-      return klass.new(**props) if initialize_params.count > 1
-      return klass.new(event:) if initialize_params.include?(:event)
-
-      klass.new
-    end
-
-    def render_args(class_proxy:, instance:, event:, props:)
-      render_params = class_proxy.instance_methods[:render]&.tagged_params(:keyword)&.map(&:name) || []
-      return instance.render(event:, **props) if render_params.include?(:event) && render_params.count > 1
-      return instance.render(event:) if render_params.include?(:event)
-
-      instance.render
+    def node_class
+      class_constant(namespace: @namespace&.split('::') || [], name: @name)
     end
   end
 end
