@@ -16,13 +16,13 @@ PATH
 PATH
   remote: ../lowkey
   specs:
-    lowkey (0.6.0)
+    lowkey (0.7.0)
       prism
 
 PATH
   remote: ../lowloop
   specs:
-    lowloop (0.8.1)
+    lowloop (0.8.2)
       async
       async-http
       io-stream
@@ -35,11 +35,11 @@ PATH
 PATH
   remote: ../lownode
   specs:
-    lownode (0.5.2)
-      antlers
+    lownode (0.5.3)
+      antlers (~> 1.2.1)
       lowevent
       lowloop
-      lowtype (~> 1.5)
+      lowtype (~> 1.6)
       observers
 
 PATH
@@ -50,9 +50,9 @@ PATH
 PATH
   remote: .
   specs:
-    antlers (1.2.1)
+    antlers (1.2.2)
       erb
-      lowkey
+      lowkey (>= 0.7.0)
       plugs
 
 GEM
@@ -80,7 +80,7 @@ GEM
       json
     diff-lcs (1.6.2)
     erb (6.0.7)
-    expressions (0.1.0)
+    expressions (0.2.0)
     fiber-annotation (0.2.0)
     fiber-local (1.1.0)
       fiber-storage
@@ -88,7 +88,7 @@ GEM
     io-console (0.9.4)
     io-endpoint (0.19.0)
       openssl (>= 3.3.0)
-    io-event (1.22.1)
+    io-event (1.22.3)
     io-stream (0.14.0)
       openssl (>= 3.3)
     irb (1.18.0)
@@ -195,7 +195,7 @@ DEPENDENCIES
   rubocop
 
 CHECKSUMS
-  antlers (1.2.1)
+  antlers (1.2.2)
   ast (2.4.3) sha256=954615157c1d6a382bc27d690d973195e79db7f55e9765ac7c481c60bdb4d383
   async (2.46.0) sha256=34f984733dbf63a997376346451ec995e858cacc3105e86ccfeaf8877b4f490b
   async-http (0.105.0) sha256=55191969d5cf61be5fbc2e0aadd51d77085318ba192a5ff5e12e3aba0826906a
@@ -205,13 +205,13 @@ CHECKSUMS
   diff-lcs (1.6.2) sha256=9ae0d2cba7d4df3075fe8cd8602a8604993efc0dfa934cff568969efb1909962
   dirload (0.7.0)
   erb (6.0.7) sha256=c5ca6dc25b0ef974a44dc8f59fe847577122483b1968a38dec305c60bf91ee92
-  expressions (0.1.0) sha256=9fc860c824d4a62ba230fb6dc2676223641f3992a6ae66901bd95c7f37d42a31
+  expressions (0.2.0) sha256=beb5ef024fe05faba76734ec676ffc9d572e6c0335eaf9280d80b844e048aa25
   fiber-annotation (0.2.0) sha256=7abfadf1d119f508867d4103bf231c0354d019cc39a5738945dec2edadaf6c03
   fiber-local (1.1.0) sha256=c885f94f210fb9b05737de65d511136ea602e00c5105953748aa0f8793489f06
   fiber-storage (1.0.1) sha256=f48e5b6d8b0be96dac486332b55cee82240057065dc761c1ea692b2e719240e1
   io-console (0.9.4) sha256=a403304f32928ee85e56d457b4612ca43f2703b561a3258844992bd24085fbb1
   io-endpoint (0.19.0) sha256=547aaefe9a78bc57fe25f9f7661b460395ebdfda506f70fdf4cc71d2ae5ca578
-  io-event (1.22.1) sha256=0dd054cefe4a29f1b8286604f332c14f3208d75f54902961e91e94d45e5e1600
+  io-event (1.22.3) sha256=1b12f144898bd36b689ee1e0898750fc04adf039188c7e24a05f21fa63cc6adb
   io-stream (0.14.0) sha256=07d9b13ea2066ccbbc761fff8d69ad5a31e47561d31e02cc271f3ed9c1a8f1cd
   irb (1.18.0) sha256=de9454a0703a54704b9811a5ef31a60c86949fbf4013fcf244fabc7c775248e3
   json (3.1.0) sha256=3ce7ccf8fde58960177a3a756c31f292a4c1e1dedee884547096a5b0604e3bd8
@@ -219,9 +219,9 @@ CHECKSUMS
   lint_roller (1.1.0) sha256=2c0c845b632a7d172cb849cc90c1bce937a28c5c8ccccb50dfd46a485003cc87
   logger (1.7.0) sha256=196edec7cc44b66cfb40f9755ce11b392f21f7967696af15d274dde7edff0203
   lowevent (0.8.1)
-  lowkey (0.6.0)
-  lowloop (0.8.1)
-  lownode (0.5.2)
+  lowkey (0.7.0)
+  lowloop (0.8.2)
+  lownode (0.5.3)
   lowtype (1.6.0) sha256=f60b005a147a0c04390f4420b7e345c7477a5d7eb65c8b0e670112327d74981d
   observers (0.9.0) sha256=0680b9be67265e5cac81b4b96648bd6f0f85e5c9b03df6e82c290fb4943de0fa
   openssl (4.0.2) sha256=1037ad2868ae58df9ad917891c0c0f9815a1172f6846d4bcdd508e4c2ee747c2
