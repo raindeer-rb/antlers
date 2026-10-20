@@ -28,5 +28,16 @@ RSpec.describe Antlers::Props do
 
       expect(node.evaluate_props(props:, current_binding: binding)).to eq(count: 3, below: -2, ratio: 1.5, name: '3')
     end
+
+    it 'reads other values rather than variable names' do
+      props = { shown: 'true', hidden: 'false', none: 'nil', state: ':draft', title: %q('it\'s') }
+
+      expect(node.evaluate_props(props:, current_binding: binding))
+        .to eq(shown: true, hidden: false, none: nil, state: :draft, title: "it's")
+    end
+
+    it 'keeps other quoted text as it is written' do
+      expect(node.evaluate_props(props: { title: "\"\#{name}\"" }, current_binding: binding)).to eq(title: "\#{name}")
+    end
   end
 end

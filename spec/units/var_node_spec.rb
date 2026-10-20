@@ -28,6 +28,10 @@ class MockVarClass
     DateTime.new(2026, 10, 13, 9, 30)
   end
 
+  def draft
+    false
+  end
+
   def instance_binding
     binding
   end
@@ -66,6 +70,22 @@ RSpec.describe Antlers::VarNode do
 
       it 'evaluates a method chain' do
         expect(var_node.render(current_binding: mock_instance.instance_binding)).to eq('true')
+      end
+    end
+
+    context 'with a method that returns false' do
+      subject(:var_node) { described_class.new(value: 'draft') }
+
+      it 'renders false' do
+        expect(var_node.render(current_binding: mock_instance.instance_binding)).to eq('false')
+      end
+    end
+
+    context 'with a method chain on an undefined name' do
+      subject(:var_node) { described_class.new(value: 'missing.title') }
+
+      it 'renders nothing' do
+        expect(var_node.render(current_binding: mock_instance.instance_binding)).to eq('')
       end
     end
 

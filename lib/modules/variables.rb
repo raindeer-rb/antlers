@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'erb'
+require 'lowkey'
 require_relative '../support/queries'
 
 module Antlers
@@ -8,8 +9,8 @@ module Antlers
     extend Queries
 
     # Evaluation limited to the following for security and to stop a templating language becoming a programming language.
-    #  1. A static string
-    #  2. A number, like 3 or 1.5
+    #  1. A value ('string', 3, 1.5, true, nil or :symbol)
+    #  2. Invalid string ("Hi #{name}", 'it's', 'a' + 'b')
     #  3. An instance variable
     #  4. A method call/local variable
     #  5. A method chain
@@ -22,20 +23,24 @@ module Antlers
     end
 
     def result(value:, current_binding:)
-      return value[1..-2] if Queries.user_defined_string?(value)
-      return Queries.number(value) if Queries.number?(value)
-      return value unless current_binding
+      Lowkey::ValueParser.parse(value) do
+        next value[1..-2] if Queries.user_defined_string?(value)
+        next value unless current_binding
 
+        variable(value:, current_binding:)
+      end
+    end
+
+    private
+
+    def variable(value:, current_binding:)
       name, *chain = value.split('.')
 
       result = method_var(name:, current_binding:)
       return method_chain(result:, chain:) if chain.count > 0
-      return result if result
 
-      nil
+      result
     end
-
-    private
 
     def method_var(name:, current_binding:)
       return current_binding.receiver.instance_variable_get(name) if name.start_with?('@')
@@ -47,7 +52,7 @@ module Antlers
 
     def method_chain(result:, chain:)
       chain.reduce(result) do |result, method_call|
-        result.send(method_call.to_sym)
+        result&.send(method_call.to_sym)
       end
     end
   end
