@@ -2,6 +2,8 @@
 
 require_relative '../interfaces/leaf_node'
 require_relative '../modules/variables'
+require_relative '../antlers/translations'
+require_relative '../support/queries'
 
 module Antlers
   class VarNode < LeafNode
@@ -14,10 +16,14 @@ module Antlers
 
       @value = value
       @raw = raw
+      @translatable = Queries.translatable?(value.strip)
     end
 
     def render(current_binding: nil, parent_binding: nil, slot_node: nil, metadata: {})
-      evaluate(value: @value, current_binding:, escape: !@raw).to_s
+      return evaluate(value: @value, current_binding:, escape: !@raw).to_s unless @translatable
+
+      result = Translations.translate(result(value: @value, current_binding:))
+      (@raw ? result : ERB::Util.html_escape(result)).to_s
     end
 
     class << self

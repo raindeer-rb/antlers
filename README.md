@@ -166,6 +166,29 @@ end
 ```
 ℹ️ **Translations:** Text entered this way can be translated based on region, language or any arbitrary condition. [UNRELEASED]
 
+### Translations
+
+Strings `{"Hello"}` and symbols `{:app_name}` are translated into the current locale:
+```ruby
+Antlers::Translations.load({
+  symbols: { app_name: 'Raindeer' },
+  es: { 'Hello' => 'Hola', 'Raindeer' => 'Renos' }
+})
+
+ast = Antlers.ast(template: '<p>{"Hello"} {:app_name}</p>')
+
+Antlers.render(ast:, current_binding: binding)
+# => "<p>Hello Raindeer</p>"
+
+Antlers::Translations.with_locale(:es) do
+  Antlers.render(ast:, current_binding: binding)
+  # => "<p>Hola Renos</p>"
+end
+```
+
+- A string without a translation in the locale renders as itself
+- A symbol renders its value under `symbols`, which is then translated like any other string
+
 ## Full Examples
 
 ### Slot

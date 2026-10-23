@@ -4,6 +4,7 @@ require_relative 'antlers/elements'
 require_relative 'antlers/keywords'
 require_relative 'antlers/lexer'
 require_relative 'antlers/parser'
+require_relative 'antlers/translations'
 
 module Antlers
   module_function
