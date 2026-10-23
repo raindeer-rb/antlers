@@ -9,7 +9,6 @@ group :development do
   gem 'dirload', path: '../dirload'
   gem 'lowevent', path: '../lowevent'
   gem 'lowkey', path: '../lowkey'
-  gem 'lowloop', path: '../lowloop'
   gem 'lownode', path: '../lownode'
   gem 'plugs', path: '../plugs'
 
