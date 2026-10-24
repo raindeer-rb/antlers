@@ -14,6 +14,20 @@ RSpec.describe Antlers::AntlerNode do
       expect([event.action, event.props]).to eq([:render, { limit: 3 }])
     end
 
+    it 'has the params of the parent event' do
+      event = Struct.new(:params).new({ id: '1' })
+      parent_binding = binding
+
+      expect(node.possible_render_event(props: {}, current_binding: parent_binding).params).to eq({ id: '1' })
+    end
+
+    it 'has empty params when the parent event has none' do
+      event = Struct.new(:params).new(nil)
+
+      expect(node.possible_render_event(props: {}, current_binding: binding).params).to eq({})
+      expect(node.possible_render_event(props: {}).params).to eq({})
+    end
+
     it 'is nil without lowevent' do
       hide_const('Low::Events::RenderEvent')
 

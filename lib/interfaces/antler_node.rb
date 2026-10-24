@@ -20,8 +20,19 @@ module Antlers
     end
 
     # Support sending an event to render_template hook when lowevent available. See lownode as an example implementation.
-    def possible_render_event(props:)
-      Low::Events::RenderEvent.new(action: :render, props:) if defined?(Low::Events::RenderEvent)
+    def possible_render_event(props:, current_binding: nil)
+      return unless defined?(Low::Events::RenderEvent)
+      return Low::Events::RenderEvent.new(action: :render, props:) unless Low::Events::RenderEvent.members.include?(:params)
+
+      Low::Events::RenderEvent.new(action: :render, props:, params: parent_params(current_binding:))
+    end
+
+    # The parent node's event (a RouteEvent or RenderEvent) is the "event" local variable on its binding.
+    def parent_params(current_binding:)
+      return {} unless current_binding&.local_variable_defined?(:event)
+
+      event = current_binding.local_variable_get(:event)
+      (event.params if event.respond_to?(:params)) || {}
     end
 
     class << self

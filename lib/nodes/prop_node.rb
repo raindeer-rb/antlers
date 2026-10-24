@@ -27,7 +27,7 @@ module Antlers
     # Classes referenced via "<{ MyNode }>" must implement class/instance and render/render_template methods (See lownode).
     def render(current_binding: nil, parent_binding: nil, slot_node: nil, metadata: {})
       props = evaluate_props(props: @props, current_binding:)
-      event = possible_render_event(props:)
+      event = possible_render_event(props:, current_binding:)
 
       klass = node_class || raise(NameError, "uninitialized constant #{@name}")
 
